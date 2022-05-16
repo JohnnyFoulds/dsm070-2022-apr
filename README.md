@@ -1,2 +1,2 @@
-# dsm070-2022-apr
-Blockchain programming
+# Blockchain programming (DSM070-2022-APR)
+

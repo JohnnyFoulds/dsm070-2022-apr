@@ -1,8 +1,11 @@
 {
     "cSpell.words": [
+        "dtype",
         "foulds",
         "getsizeof",
         "Hashcat",
+        "itemsize",
+        "nbytes",
         "opencl",
         "pyopencl",
         "summy",

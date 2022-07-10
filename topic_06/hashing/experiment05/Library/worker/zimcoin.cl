@@ -75,7 +75,7 @@ void generate_random_string(unsigned int *seed, uchar *w, uchar *len)
     }
 
     // generate the string
-    *len = miller_generator(seed, 0, 16);
+    *len = miller_generator(seed, 1, 16);
     for (int i = 0; i < *len; i++) {
         w[i] = miller_generator(seed, 32, 126);
     }
@@ -133,32 +133,23 @@ kernel void get_single_hash_nonce(
     global unsigned int *hash)
 {
     unsigned int loc_seed = *seed;
-
-    // initialize the input buffer
-    uchar input_buffer[512];
+    
+    uchar loc_w[512];
     for (int i = 0; i < *len; i++) {
-        input_buffer[i] = w[i];
+        loc_w[i] = w[i];
     }
-
-    // generate the random string
     uchar loc_nonce[16];
     uchar loc_nonce_len;
-    generate_random_string(&loc_seed, loc_nonce, &loc_nonce_len);
-    for (int i = 0; i < loc_nonce_len; i++) {
+    unsigned int loc_hash[8];
+
+    // get the single hash with a random nonce
+    single_hash_nonce(&loc_seed, loc_w, *len, loc_nonce, &loc_nonce_len, loc_hash);
+
+    // assign the output
+    *nonce_len = loc_nonce_len;
+    for (int i = 0; i < *nonce_len; i++) {
         nonce[i] = loc_nonce[i];
     }
-
-    *nonce_len = loc_nonce_len;
-
-    // add the nonce to the input buffer
-    int input_len = *len + loc_nonce_len;
-    for (int i = 0; i < loc_nonce_len; i++) {
-        input_buffer[*len + i] = loc_nonce[i];
-    }
-
-    // // get the hash
-    unsigned int loc_hash[8];
-    single_hash(input_buffer, input_len, loc_hash);
 
     for (int i=0; i<8; i++) {
         hash[i] = loc_hash[i];

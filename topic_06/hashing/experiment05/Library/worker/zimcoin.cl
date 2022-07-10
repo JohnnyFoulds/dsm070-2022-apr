@@ -1,3 +1,86 @@
+int count_leading_zeros(unsigned int *hash)
+{
+    // /unsigned int x = hash[0];
+    int count = 0;
+
+    unsigned char c[32];
+    for (int w = 0; w < 8; w++) {
+        c[0 + w*4] = hash[w] & 0xff;
+        c[1 + w*4] = (hash[w] >> 8) & 0xff;
+        c[2 + w*4] = (hash[w] >> 16) & 0xff;
+        c[3 + w*4] = (hash[w] >> 24) & 0xff;        
+    }
+
+    for (int i = 0; i < 32; i++) {
+        if (c[i] > 9) {
+            return count;
+        }
+        if ((c[i] > 0) && (c[i] < 9)) {
+            return (count + 1);
+        }
+
+        if (c[i] == 0) {
+            count += 2;
+        } 
+    }
+
+
+    // c[0] = rgba & 0xff;
+    // c[1] = (rgba >> 8) & 0xff;
+    // c[2] = (rgba >> 16) & 0xff;
+    // c[3] = (rgba >> 24) & 0xff;
+
+    // for (int w = 0; w < 8; w++) {
+    //     signed char *p = (uchar *)&hash[w];
+    //     for (int c = 0; c < 4; c++) {
+    //         if (p[c] > 9) {
+    //             return count;
+    //         }
+    //         count++;
+    //     }
+    // }
+
+    // int count = 0;
+    // int zeros = 0;
+    // for (int w = 0; w < 8; w++) {
+    //     signed char *p = (unsigned char*)&hash[w];
+    //     for (int c = 0; c < 4; c++) {
+    //         zeros = __builtin_clz(p[c]);
+    //         if (zeros == 0) {
+    //             return count;
+    //         }
+    //         count += zeros;
+    //     }
+    // }
+
+
+    // int count = 0;
+    // int zeros = 0;
+
+    // for (int w = 0; w < 8; w++) {
+    //     x = hash[w];
+    //     zeros = __builtin_clz(x);
+    //     if (zeros != 0) {
+    //         count += zeros;
+    //     }
+    //     else {
+    //         return count;
+    //     }
+    // }
+
+
+
+    // int n = 32;
+    // unsigned y;
+
+    // y = x >>16; if (y != 0) { n = n -16; x = y; }
+    // y = x >> 8; if (y != 0) { n = n - 8; x = y; }
+    // y = x >> 4; if (y != 0) { n = n - 4; x = y; }
+    // y = x >> 2; if (y != 0) { n = n - 2; x = y; }
+    // y = x >> 1; if (y != 0) return n - 2;
+    // return n - x;
+}
+
 void single_hash(uchar *w, int len, unsigned int *hash)
 {
     // initialize the input buffer
@@ -19,7 +102,8 @@ void single_hash(uchar *w, int len, unsigned int *hash)
     hash_private(input_buffer, len, hash);
 }
 
-kernel void get_single_hash(global uchar *w, global int *len, global unsigned int *hash)
+kernel void get_single_hash(global uchar *w, global int *len,
+global unsigned int *hash, global uchar *leading_zeros)
 {
     unsigned int loc_hash[8];
     uchar loc_w[512];
@@ -35,6 +119,8 @@ kernel void get_single_hash(global uchar *w, global int *len, global unsigned in
     for (int i=0; i<8; i++) {
         hash[i] = loc_hash[i];
     }
+
+    *leading_zeros = count_leading_zeros(loc_hash);
 }
 
 // miller_generator source: https://github.com/emb-team/opencl_random
@@ -175,10 +261,12 @@ kernel void mine_nonce(
     for (unsigned int i = 0; i < *window_size; i++) {
         single_hash_nonce(&loc_seed, loc_w, *len, loc_nonce, &loc_nonce_len, hash);
 
-        // set the output
-        nonce_len[i] = loc_nonce_len;
-        for (int j = 0; j < loc_nonce_len; j++) {
-            nonce[i * 16 + j] = loc_nonce[j];
+        int leading_zeros = count_leading_zeros(hash);
+        if (leading_zeros > 0) {
+            nonce_len[leading_zeros] = loc_nonce_len;
+            for (int j = 0; j < loc_nonce_len; j++) {
+                nonce[leading_zeros * 16 + j] = loc_nonce[j];
+            }
         }
     }
 }

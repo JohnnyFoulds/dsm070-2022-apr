@@ -4,6 +4,7 @@
         "foulds",
         "getsizeof",
         "Hashcat",
+        "hostbuf",
         "itemsize",
         "nbytes",
         "opencl",

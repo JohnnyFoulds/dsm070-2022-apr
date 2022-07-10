@@ -1,4 +1,37 @@
-kernel void sha256_test(global uchar *w, global int *len) {
+kernel void sha256_test(global uchar *w, global int *len, global u32 *hash) {
+    // ulong number = 1234;
+    // sha256_ctx_t ctx;
+
+    // int input_len = *len * sizeof(u32);
+    // u32 input[256];
+    // for (int i = 0; i < *len; i++) {
+    //     input[i] = w[i];
+    // }
+
+    // manually create the input for now assuming len is 4
+    int input_len = 256;
+    u32 input_buffer[256];
+
+    input_buffer[0] = (w[3] << 24) | (w[2] << 16) | ( w[1] << 8 ) | (w[0]);
+    for (int i = 1; i < 256; i++) {
+        input_buffer[i] = input_buffer[0];
+    }
+
+    sha256_init(&ctx);
+    sha256_update(&ctx, &input, len);
+    //sha256_update(&ctx, &input_buffer, &input_len);
+    sha256_final(&ctx);
+
+
+    // sha256_init(&ctx);
+    // sha256_update(&ctx, w, len);
+    // //sha256_update(&ctx, &input, len);
+    // sha256_final(&ctx);
+
+    for (int i = 0; i < 8; i++) {
+        hash[i] = ctx.h[i];
+        //hash[i] = input_buffer[0];
+    }
 }
 
 kernel void increment_int(global uchar *x, global u32 *y) {

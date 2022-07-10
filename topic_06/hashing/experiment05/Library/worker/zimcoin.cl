@@ -155,3 +155,30 @@ kernel void get_single_hash_nonce(
         hash[i] = loc_hash[i];
     }
 }
+
+kernel void mine_nonce(
+    global unsigned int *seed,
+    global unsigned int *window_size,
+    global uchar *w, global int *len,
+    global uchar *nonce, global uchar *nonce_len)
+{
+    unsigned int loc_seed = *seed;
+    uchar loc_w[512];
+    for (int i = 0; i < *len; i++) {
+        loc_w[i] = w[i];
+    }
+
+    uchar loc_nonce[16];
+    uchar loc_nonce_len;
+    unsigned int hash[8];
+
+    for (unsigned int i = 0; i < *window_size; i++) {
+        single_hash_nonce(&loc_seed, loc_w, *len, loc_nonce, &loc_nonce_len, hash);
+
+        // set the output
+        nonce_len[i] = loc_nonce_len;
+        for (int j = 0; j < loc_nonce_len; j++) {
+            nonce[i * 16 + j] = loc_nonce[j];
+        }
+    }
+}

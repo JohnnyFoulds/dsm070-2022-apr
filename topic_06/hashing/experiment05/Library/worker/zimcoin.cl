@@ -1,3 +1,23 @@
+// miller_generator source: https://github.com/emb-team/opencl_random
+uchar miller_generator(unsigned int *seed, uchar start, uchar end)
+{
+    unsigned int a = 16807;
+    unsigned int m = 2147483647;
+    int gid = get_global_id(0);
+
+    *seed = *seed * (gid + 1);
+
+    unsigned int final, val;
+    final = 0;
+    *seed = (a * *seed) % m;
+    for (int j = 0; j < 4; j++) {
+        val = 0;
+        val = ((*seed & (0xff << j*8)) >> j*8) % (end - start + 1) + start;
+        final = final | (val << j*8);
+    }
+    return final;
+}
+
 kernel void single_hash(global uchar *w, global int *len, global unsigned int *hash)
 {
     // initialize the input buffer
@@ -17,4 +37,45 @@ kernel void single_hash(global uchar *w, global int *len, global unsigned int *h
     }
 
     hash_priv_to_glbl(&input_buffer, *len, hash);
+}
+
+kernel void get_random_numbers(global unsigned int *seed, global uchar *start,
+    global uchar *end, global unsigned int *len, global uchar *res_g)
+{
+    unsigned int local_seed = *seed;
+
+    for (int i = 0; i < *len; i++) {
+        res_g[i] = miller_generator(&local_seed, *start, *end);
+    }
+}
+
+void generate_random_string(unsigned int *seed, uchar *w, int *len)
+{
+    // initialize the output buffer
+    for (int i = 0; i < 16; i++) {
+        w[i] = 0;
+    }
+
+    // generate the string
+    *len = miller_generator(seed, 0, 16);
+    for (int i = 0; i < *len; i++) {
+        w[i] = miller_generator(seed, 32, 126);
+    }
+}
+
+kernel void get_random_string(global unsigned int *seed, global uchar* w, 
+    global uchar* len)
+{
+    // generate the random string
+    unsigned int loc_seed = *seed;
+    uchar loc_w[16];
+    int loc_len;
+
+    generate_random_string(&loc_seed, &loc_w, &loc_len);
+
+    // set the return values
+    len[0] = loc_len;
+    for (int i = 0; i < loc_len; i++) {
+        w[i] = loc_w[i];
+    }
 }

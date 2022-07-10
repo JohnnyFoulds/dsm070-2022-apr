@@ -67,7 +67,7 @@ kernel void get_random_numbers(global unsigned int *seed, global uchar *start,
     }
 }
 
-void generate_random_string(unsigned int *seed, uchar *w, int *len)
+void generate_random_string(unsigned int *seed, uchar *w, uchar *len)
 {
     // initialize the output buffer
     for (int i = 0; i < 16; i++) {
@@ -87,15 +87,43 @@ kernel void get_random_string(global unsigned int *seed, global uchar* w,
     // generate the random string
     unsigned int loc_seed = *seed;
     uchar loc_w[16];
-    int loc_len;
+    uchar loc_len;
 
-    generate_random_string(&loc_seed, &loc_w, &loc_len);
+    generate_random_string(&loc_seed, loc_w, &loc_len);
 
     // set the return values
     len[0] = loc_len;
     for (int i = 0; i < loc_len; i++) {
         w[i] = loc_w[i];
     }
+}
+
+void single_hash_nonce(
+    unsigned int *seed,
+    uchar *w, int len, 
+    uchar *nonce, uchar *nonce_len,
+    unsigned int *hash)
+{
+    // initialize the input buffer
+    uchar input_buffer[512];
+    for (int i = 0; i < len; i++) {
+        input_buffer[i] = w[i];
+    }
+
+    // generate the random string
+    generate_random_string(seed, nonce, nonce_len);
+    for (int i = 0; i < *nonce_len; i++) {
+        nonce[i] = nonce[i];
+    }
+
+    // add the nonce to the input buffer
+    int input_len = len + *nonce_len;
+    for (int i = 0; i < *nonce_len; i++) {
+        input_buffer[len + i] = nonce[i];
+    }
+
+    // get the hash
+    single_hash(input_buffer, input_len, hash);
 }
 
 kernel void get_single_hash_nonce(
@@ -114,7 +142,7 @@ kernel void get_single_hash_nonce(
 
     // generate the random string
     uchar loc_nonce[16];
-    int loc_nonce_len;
+    uchar loc_nonce_len;
     generate_random_string(&loc_seed, loc_nonce, &loc_nonce_len);
     for (int i = 0; i < loc_nonce_len; i++) {
         nonce[i] = loc_nonce[i];

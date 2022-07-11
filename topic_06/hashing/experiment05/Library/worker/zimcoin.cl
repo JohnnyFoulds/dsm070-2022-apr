@@ -124,23 +124,34 @@ global unsigned int *hash, global uchar *leading_zeros)
 }
 
 // miller_generator source: https://github.com/emb-team/opencl_random
-uchar miller_generator(unsigned int *seed, uchar start, uchar end)
+uchar miller_generator(unsigned int seed, uchar start, uchar end)
 {
     unsigned int a = 16807;
     unsigned int m = 2147483647;
-    int gid = get_global_id(0);
-
-    *seed = *seed * (gid + 1);
 
     unsigned int final, val;
     final = 0;
-    *seed = (a * *seed) % m;
+    seed = (a * seed) % m;
     for (int j = 0; j < 4; j++) {
         val = 0;
-        val = ((*seed & (0xff << j*8)) >> j*8) % (end - start + 1) + start;
+        val = ((seed & (0xff << j*8)) >> j*8) % (end - start + 1) + start;
         final = final | (val << j*8);
     }
     return final;
+}
+
+unsigned int random_xorshift(unsigned int seed)
+{
+    uint t = seed ^ (seed << 11);  
+    return seed ^ (seed >> 19) ^ (t ^ (t >> 8));
+}
+
+uchar random_generator(unsigned int *seed, uchar start, uchar end)
+{
+    int gid = get_global_id(0);
+    *seed = (*seed * (gid + 1)) + 1;
+
+    return random_xorshift(*seed) % (end - start + 1) + start;
 }
 
 kernel void get_random_numbers(global unsigned int *seed, global uchar *start,
@@ -149,7 +160,8 @@ kernel void get_random_numbers(global unsigned int *seed, global uchar *start,
     unsigned int local_seed = *seed;
 
     for (int i = 0; i < *len; i++) {
-        res_g[i] = miller_generator(&local_seed, *start, *end);
+        res_g[i] = random_generator(&local_seed, *start, *end);
+        *seed = local_seed;
     }
 }
 
@@ -161,9 +173,9 @@ void generate_random_string(unsigned int *seed, uchar *w, uchar *len)
     }
 
     // generate the string
-    *len = miller_generator(seed, 1, 16);
+    *len = random_generator(seed, 1, 16);
     for (int i = 0; i < *len; i++) {
-        w[i] = miller_generator(seed, 32, 126);
+        w[i] = random_generator(seed, 32, 126);
     }
 }
 

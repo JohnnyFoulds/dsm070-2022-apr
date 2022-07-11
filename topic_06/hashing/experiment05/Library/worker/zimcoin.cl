@@ -140,6 +140,7 @@ uchar miller_generator(unsigned int seed, uchar start, uchar end)
     return final;
 }
 
+// https://stackoverflow.com/questions/9912143/how-to-get-a-random-number-in-opencl
 unsigned int random_xorshift(unsigned int seed)
 {
     uint t = seed ^ (seed << 11);  

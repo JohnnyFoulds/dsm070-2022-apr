@@ -16,6 +16,24 @@ pip install wheel
 pip install -r requirements.txt
 ```
 
+### Linux Config
+
+```bash
+# create the environment
+export DSM070_SRC=$HOME/code/dsm070-2022-apr
+export DSM070_ENV=$HOME/env/dsm070
+
+mkdir $HOME/env
+mkdir $DSM070_ENV
+python3 -m venv $DSM070_ENV
+source $DSM070_ENV/bin/activate
+
+# install the required packages
+cd $DSM070_SRC/topic_06
+pip install wheel
+pip install -r requirements.txt
+
+
 ## Web References
 
 - [How to Set Up a Virtual Environment in Python](https://www.freecodecamp.org/news/how-to-setup-virtual-environments-in-python/)

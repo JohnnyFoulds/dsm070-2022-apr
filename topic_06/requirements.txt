@@ -1,2 +1,2 @@
 pyopencl==2022.1.6
-#pyopencl==2018.2.1
+ipykernel==6.15.1

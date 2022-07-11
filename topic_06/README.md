@@ -19,6 +19,8 @@ pip install -r requirements.txt
 ### Linux Config
 
 ```bash
+sudo apt-get install python3-venv
+
 # create the environment
 export DSM070_SRC=$HOME/code/dsm070-2022-apr
 export DSM070_ENV=$HOME/env/dsm070

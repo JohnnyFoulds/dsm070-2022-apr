@@ -265,7 +265,7 @@ kernel void mine_nonce(
         nonce_len[i] = 0;
     }
 
-    unsigned int loc_seed = *seed;
+    unsigned int loc_seed = *seed + get_global_id(0);
     uchar loc_w[512];
     for (int i = 0; i < *len; i++) {
         loc_w[i] = w[i];
@@ -274,15 +274,20 @@ kernel void mine_nonce(
     uchar loc_nonce[16];
     uchar loc_nonce_len;
     unsigned int hash[8];
+    int next_open_slot = 1;
 
     for (unsigned int i = 0; i < *window_size; i++) {
         single_hash_nonce(&loc_seed, loc_w, *len, loc_nonce, &loc_nonce_len, hash);
 
         int leading_zeros = count_leading_zeros(hash);
-        if (leading_zeros > 0) {
+        if (leading_zeros > next_open_slot) {
             nonce_len[leading_zeros] = loc_nonce_len;
             for (int j = 0; j < loc_nonce_len; j++) {
                 nonce[leading_zeros * 16 + j] = loc_nonce[j];
+            }
+
+            if (leading_zeros == next_open_slot+1) {
+                next_open_slot++;
             }
         }
     }

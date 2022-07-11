@@ -34,7 +34,28 @@ source $DSM070_ENV/bin/activate
 cd $DSM070_SRC/topic_06
 pip install wheel
 pip install -r requirements.txt
+```
 
+### Windows Config
+
+```powershell
+$DSM070_SRC="$HOME\code\dsm070-2022-apr"
+$DSM070_ENV="$HOME\env\dsm070"
+
+mkdir "$HOME\env"
+mkdir $DSM070_ENV
+
+Set-ExecutionPolicy RemoteSigned
+
+python3 -m venv $DSM070_ENV
+cd "$DSM070_ENV\Scripts\"
+.\activate
+pip install --upgrade pip
+
+cd "$DSM070_SRC\topic_06"
+pip install wheel
+pip install -r requirements.txt
+```
 
 ## Web References
 

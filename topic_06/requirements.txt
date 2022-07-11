@@ -1,2 +1,4 @@
 pyopencl==2022.1.6
 ipykernel==6.15.1
+pqdm==0.2.0
+ipywidgets==7.7.1

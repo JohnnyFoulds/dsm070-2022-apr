@@ -261,6 +261,10 @@ kernel void mine_nonce(
     global uchar *w, global int *len,
     global uchar *nonce, global uchar *nonce_len)
 {
+    for (int i = 0; i < 65; i++) {
+        nonce_len[i] = 0;
+    }
+
     unsigned int loc_seed = *seed;
     uchar loc_w[512];
     for (int i = 0; i < *len; i++) {

@@ -274,7 +274,7 @@ kernel void mine_nonce(
     uchar loc_nonce[16];
     uchar loc_nonce_len;
     unsigned int hash[8];
-    int next_open_slot = 1;
+    int next_open_slot = 0;
 
     for (unsigned int i = 0; i < *window_size; i++) {
         single_hash_nonce(&loc_seed, loc_w, *len, loc_nonce, &loc_nonce_len, hash);

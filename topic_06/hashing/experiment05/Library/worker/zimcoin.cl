@@ -1,4 +1,4 @@
-#define max_nonce 32
+#define max_nonce 16
 
 int count_leading_zeros(unsigned int *hash)
 {
@@ -278,8 +278,11 @@ kernel void mine_nonce(
     unsigned int hash[8];
     int next_open_slot = 0;
 
-    for (unsigned int i = 0; i < *window_size; i++) {
-        single_hash_nonce(&loc_seed, loc_w, *len, loc_nonce, &loc_nonce_len, hash);
+    unsigned int loc_window_size = *window_size;
+    int loc_len = *len;
+
+    for (unsigned int i = 0; i < loc_window_size; i++) {
+        single_hash_nonce(&loc_seed, loc_w, loc_len, loc_nonce, &loc_nonce_len, hash);
 
         int leading_zeros = count_leading_zeros(hash);
         if (leading_zeros > next_open_slot) {

@@ -25,62 +25,6 @@ int count_leading_zeros(unsigned int *hash)
             count += 2;
         } 
     }
-
-
-    // c[0] = rgba & 0xff;
-    // c[1] = (rgba >> 8) & 0xff;
-    // c[2] = (rgba >> 16) & 0xff;
-    // c[3] = (rgba >> 24) & 0xff;
-
-    // for (int w = 0; w < 8; w++) {
-    //     signed char *p = (uchar *)&hash[w];
-    //     for (int c = 0; c < 4; c++) {
-    //         if (p[c] > 9) {
-    //             return count;
-    //         }
-    //         count++;
-    //     }
-    // }
-
-    // int count = 0;
-    // int zeros = 0;
-    // for (int w = 0; w < 8; w++) {
-    //     signed char *p = (unsigned char*)&hash[w];
-    //     for (int c = 0; c < 4; c++) {
-    //         zeros = __builtin_clz(p[c]);
-    //         if (zeros == 0) {
-    //             return count;
-    //         }
-    //         count += zeros;
-    //     }
-    // }
-
-
-    // int count = 0;
-    // int zeros = 0;
-
-    // for (int w = 0; w < 8; w++) {
-    //     x = hash[w];
-    //     zeros = __builtin_clz(x);
-    //     if (zeros != 0) {
-    //         count += zeros;
-    //     }
-    //     else {
-    //         return count;
-    //     }
-    // }
-
-
-
-    // int n = 32;
-    // unsigned y;
-
-    // y = x >>16; if (y != 0) { n = n -16; x = y; }
-    // y = x >> 8; if (y != 0) { n = n - 8; x = y; }
-    // y = x >> 4; if (y != 0) { n = n - 4; x = y; }
-    // y = x >> 2; if (y != 0) { n = n - 2; x = y; }
-    // y = x >> 1; if (y != 0) return n - 2;
-    // return n - x;
 }
 
 void single_hash(uchar *w, int len, unsigned int *hash)
@@ -255,6 +199,53 @@ kernel void get_single_hash_nonce(
     for (int i=0; i<8; i++) {
         hash[i] = loc_hash[i];
     }
+}
+
+kernel void mine_eight(
+    global unsigned int *seed,
+    global unsigned int *window_size,
+    global uchar *w, global int *len,
+    global uchar *nonce, global uchar *nonce_len
+    //global unsigned int *hash_count
+)
+{
+    for (int i = 0; i < 65; i++) {
+        nonce_len[i] = 0;
+    }
+
+    unsigned int loc_seed = *seed + get_global_id(0);
+    uchar loc_w[512];
+    for (int i = 0; i < *len; i++) {
+        loc_w[i] = w[i];
+    }
+
+    uchar loc_nonce[max_nonce];
+    uchar loc_nonce_len;
+    unsigned int hash[8];
+    int next_open_slot = 0;
+
+    unsigned int loc_window_size = *window_size;
+    int loc_len = *len;
+    unsigned int loc_has_count = 0;
+
+    for (unsigned int i = 0; i < loc_window_size; i++) {
+        loc_has_count++;
+        single_hash_nonce(&loc_seed, loc_w, loc_len, loc_nonce, &loc_nonce_len, hash);
+
+        if (hash[0] == 0) {
+        //if (count_leading_zeros(hash) > 7) {
+            nonce_len[next_open_slot] = loc_nonce_len;
+            for (int j = 0; j < loc_nonce_len; j++) {
+                nonce[next_open_slot * max_nonce + j] = loc_nonce[j];
+            }
+
+            if (next_open_slot == next_open_slot+1) {
+                next_open_slot++;
+            }
+        }
+    }
+
+    //*hash_count = *hash_count + loc_has_count;
 }
 
 kernel void mine_nonce(

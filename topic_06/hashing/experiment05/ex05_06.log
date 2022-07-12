@@ -1,0 +1,109 @@
+2022-07-12 10:29:18 INFO     Started
+2022-07-12 10:30:40 INFO     build program: kernel 'mine_nonce' was part of a lengthy source build resulting from a binary cache miss (6.76 s)
+2022-07-12 10:30:40 INFO        1: [14]   Fu&>H1y}G)ayw' 03fe7434fff02e641e10a42e3c0f930d0e1c6e820a3c1e40c1d644f6e673dd6b
+2022-07-12 10:30:40 INFO        2: [ 5]            xLGw= 00d597767b25138422e6feeee25e7c8bad769a271ff4d5ab3085506ae893f199
+2022-07-12 10:30:40 INFO        3: [16] rfl*StD#hPcwqaR; 0003d9a6d7ce3dcdf2a483ab8427e230d9c657d76da1c376c3e38571bc80c0e8
+2022-07-12 10:30:40 INFO        4: [ 5]            \}UUM 0000c0bb47c5ab056dab644a90e95c0b1002719ac993bb5b69e3a1b2c8cdbb02
+2022-07-12 10:30:40 INFO        5: [ 7]          xm|6q*& 000001b34ca2d8c0d920d2b738ff5ebbb2a963bd34b91052e23ca99db1f64ca3
+2022-07-12 10:30:40 INFO        6: [ 4]             \ci& 00000084acaae889f2bd9799e92634f3bec21f3a637ca27c8319f65b39c17e7f
+2022-07-12 10:30:54 INFO     Started
+2022-07-12 10:30:55 INFO        1: [ 3]              pc| 08e54394a0d1a921f061d184a0c5e726dfea8507fcc7b4693f514dfebe7de9f4
+2022-07-12 10:30:55 INFO        2: [ 5]            FR45~ 002ee2a0f7614d5370990c887a04a96f96e7f34042abd62535cb15044ba7679d
+2022-07-12 10:30:55 INFO        3: [ 3]              sVH 0001ffb44420671ef6c2a569eef1f66650c8cbfc80070cd4323206d6c6ce2ead
+2022-07-12 10:30:55 INFO        4: [14]   p5t#I~B@b,=2K_ 0000808484e62705ea20079535756b1bcaa2f9d334ccb22a2591d72d09a59f75
+2022-07-12 10:30:55 INFO        5: [13]    ;awZ(hvf|S9'  000007b8b7392e3a55de0dc90d63288326e5bf619117e9d460ac8d5e2c557aa1
+2022-07-12 10:30:59 INFO        6: [ 8]         ![ ^ML-v 000000c75243cbc0a8973d8205609e774405b5032e705a2facac1e7632ba0990
+2022-07-12 10:31:09 INFO        7: [ 9]        $.4B=B}`- 0000000828f4fee66387812f743f2fba80430ac935c3f45f54c2e4430e732398
+2022-07-12 10:32:58 INFO     Started
+2022-07-12 10:32:59 INFO        1: [ 7]          /fPK\GA 080254bdfecac1ed66940c7d352314b861d8040c0ae2daf17b311f15c078e5c7
+2022-07-12 10:32:59 INFO        2: [16] g)w5&7p(3h!ED1Q" 00110949587ec2a8446620cf157c6ba0f8dcd1d829f3b4468e342cf57edb5984
+2022-07-12 10:32:59 INFO        3: [ 4]             [{Gj 000724cc3d4cff975f85befd0d3887b05ce6e0c9fe008a938bae2bbd60559c8e
+2022-07-12 10:32:59 INFO        4: [12]     gs{?I,ed?t-N 000044a5ece48eca58e5e44f70195951c853baa1341d465e00d3f98395763c78
+2022-07-12 10:32:59 INFO        5: [ 7]          ;Boplf> 0000050a21eacdc4685403c5c2d762e8ce781d9fde9204b8dbc2c1eaf7aa2e8a
+2022-07-12 10:33:00 INFO        6: [12]     uX;cN`"o$PG" 00000012be3aa73b4f9ebfa843d316875553b6a2d018d16d513c3a7b1e810be1
+2022-07-12 10:34:58 INFO     Started
+2022-07-12 10:35:02 INFO        1: [11]      *W6be$tK=2% 0338d41d927b503a96c244f2e85142e96bb532f3c8402b136699b07379361b19
+2022-07-12 10:35:02 INFO        2: [10]       T/(78eb=D] 009ea91e30f37fe23985b6c32d31f71e5b54246482c88ef694aa9291cc64dd82
+2022-07-12 10:35:02 INFO        3: [14]   68eS!a/|JP}k9y 0002a770b064a23ff4d93c4ecac92f96cf9f6b0e11d85ce573ef9451d2548741
+2022-07-12 10:35:02 INFO        4: [13]    : r,G5v5=fDP} 00008f177a605c4667cbad689de1944c6fd24a866335c2a63859818e2569420b
+2022-07-12 10:35:02 INFO        5: [ 9]        Tla#kzx^' 00000658ba862b2fed6708a5c10339c0ae01c9f76ee8e1651433a67c52734511
+2022-07-12 10:35:02 INFO        6: [ 8]         1aF{M8tz 000000631cabd2ccdfbdbb961e0a5deeb7a629f3539efb68225cba2371974e2b
+2022-07-12 10:36:23 INFO     Started
+2022-07-12 10:36:55 INFO        1: [ 2]               C+ 0233cb1b46caf95d379fd536bc6d136eb5cef1ad16e3a537abb21049aec3c7ef
+2022-07-12 10:36:55 INFO        2: [ 6]           2*`{Sj 00e8aa205947a421f6181453efdd3263e6b6b0d5eca5f42b78bee68013a879be
+2022-07-12 10:36:55 INFO        3: [16] .!~):b%\:J<r_4pY 0003691c06d1000bfd45af77ef99b42db3b06beba91315a5941984904e1f2b2c
+2022-07-12 10:36:55 INFO        4: [10]       {7!tun@*lc 0000baa5327428501e4beb17653444b62d081333a973e38b1e2d461d6c7b5358
+2022-07-12 10:36:55 INFO        5: [12]     l w>=|I6)Ru$ 000008f2d26eefd9c4f3e95e6f59b1e3bb29013bf9614c81131d7787e5a5eccf
+2022-07-12 10:36:55 INFO        6: [ 8]         m;<UlPhX 00000091f98ea0d1b931defdd48752b1a5aad58ba4072b69e2c38f7000c4f272
+2022-07-12 10:36:55 INFO        7: [13]    kRJ?e!-*Y: >k 00000005543fc2e7b0d2da5f4243e0b44634c14d1adbadbef5704a91c5484006
+2022-07-12 10:37:44 INFO     Started
+2022-07-12 10:37:48 INFO        1: [ 5]            kAkLr 01d4f7c37aa034e9b2d9c33facc2c19e22a94ba37e4b8e575da85b4cba88bc55
+2022-07-12 10:37:48 INFO        2: [11]      rZWy$1\GQDm 00a980702ba35bfe53b8c219c2e23451c9b75517a5a658f55d29db2aaf847ccb
+2022-07-12 10:37:48 INFO        3: [15]  B`Sa.&S~^%3$\4C 0007c5bb02c758359b859256c2a06b96e4bd9557a3adc04b9c02baa4f4efff51
+2022-07-12 10:37:48 INFO        4: [ 4]             {*a8 000012fe3f4b3e204d3c23f7617b6cbe93fcacdbca115ed6ba498395881365be
+2022-07-12 10:37:48 INFO        5: [11]      @m6 'I~3mvd 000005d82e2a400fe97194af4adc55a9b76c8168f0fce781924e1aa396ea4bcb
+2022-07-12 10:37:48 INFO        6: [15]  _v$6BO^}go'!td/ 000000954362420506ed06757d48d9c25a053cdc9d036935970201dba73350e0
+2022-07-12 10:40:27 INFO        7: [ 8]         NzRYcr{P 0000000615c14081387c356fac9b716eff119d9e74ae8c2ed739fcd54e81fdbb
+2022-07-12 10:43:10 INFO        8: [ 7]          SG]F+U4 000000006e7ac599b4a793850135006a3d57079ec6d5a34d8b60ee2632269105
+2022-07-12 12:20:20 INFO     Started
+2022-07-12 12:20:28 INFO     build program: kernel 'mine_eight' was part of a lengthy source build resulting from a binary cache miss (7.55 s)
+2022-07-12 12:21:32 INFO     Started
+2022-07-12 12:22:05 INFO        1: [12]     B}=7']ikQydq 0754dc9417511b53cb0ad463fb25301ac2bb09b0c0862559a26924e8f99fd8ac
+2022-07-12 12:22:05 INFO        2: [ 6]           1@GD]} 005f84ce9172b2d40797168a45b1fabce2def6754436d5a9bfc05708e93c0a15
+2022-07-12 12:22:05 INFO        3: [ 6]           Cr' .O 0007d1aa57a773c265d4074cbd89e4274f0e69ec18d9c6c76b8f3ee4624afb6b
+2022-07-12 12:22:05 INFO        4: [12]     \btBiJ5lV0YX 000050439094d0e1899c7edb961b15ccbffa1f1bab3626d9a77531e769488cec
+2022-07-12 12:22:05 INFO        5: [16] !tJ)V";.%mEcP+ \ 000007a30b8cef20605d711efad0372da47b1b7df88feae604686ea751bf1b8c
+2022-07-12 12:22:05 INFO        6: [11]      2n{y iw:yRZ 000000fa53c450d0ac421d28478761101f6e898f20ae0c3008ab5bcef752945b
+2022-07-12 12:22:48 INFO     Started
+2022-07-12 12:23:06 INFO     Started
+2022-07-12 12:24:22 INFO     Started
+2022-07-12 12:24:30 INFO     build program: kernel 'mine_eight' was part of a lengthy source build resulting from a binary cache miss (7.51 s)
+2022-07-12 12:24:58 INFO     Started
+2022-07-12 12:25:06 INFO     build program: kernel 'mine_eight' was part of a lengthy source build resulting from a binary cache miss (7.42 s)
+2022-07-12 12:25:08 INFO        0: [ 4]             bmDH 00000485e7645678531c2cc2558c7aa780727b703f88b6b90ea0bd3601be3b13
+2022-07-12 12:25:09 INFO        0: [ 5]            by7?$ 0000053b1f806d5f11e2ebe00a45308809dbf64b3a153b202ddc1a80574d3f36
+2022-07-12 12:25:09 INFO        0: [ 4]             2ko8 000006e53a74a4f55f6644d234c5962848261ec0c3b0d415ddf90a4fd9614ac7
+2022-07-12 12:25:09 INFO        0: [ 7]          d9pOjct 000006d20ea450d6638b8c9a36ac87e93aa7b2e415f9315a7e729361aacbe2e3
+2022-07-12 12:25:11 INFO        0: [14]   >R_li;}\8b8le$ 000001a5e6ba64f3daaea1043f55280b4e930d1ad03878a44b980d5237a0e596
+2022-07-12 12:25:13 INFO        0: [11]      ]1eA3Xy&wrE 0000019ea1b87322379944d162d86049e5ee5a53707dda5becf080f2ac683ddc
+2022-07-12 12:25:14 INFO        0: [ 4]             YCEG 00000217362a3c08a0d3d56591fd1a03d1e81ba1d7ef5bf147cda1c03c9ac158
+2022-07-12 12:25:16 INFO        0: [14]   82zB`D!8D)-E5z 000008e420984323fa0b6022f33c31c098335c63453035072644d508c59fe055
+2022-07-12 12:25:16 INFO        0: [15]  ;,@g`U# /4T64~L 0000075ce51ab2a48538169f84c167c6d473d1506c36cd1d464bcf5bca9c143c
+2022-07-12 12:25:16 INFO        0: [16] er{5._~[I]}\hz&F 0000025f8cbabe94fe71b0b5b6fb844080bad976b667875dc8fecf6533beae15
+2022-07-12 12:25:17 INFO        0: [13]    6^}xoTO!vhYqV 0000047d60b4db9ec11857ef5d1118364fead253f05f0775ffb97aa79310fec8
+2022-07-12 12:25:18 INFO        0: [ 5]            >+ ed 000006a4678d0777aee6fbd8236acabec075dc4c9a4a40d2997a8209c08d04b3
+2022-07-12 12:25:18 INFO        0: [14]   -Ov*B~KoenJh=W 000006a4527572200b2ed229ac6b083569281eaf1876028c445c8b62a00b7d4f
+2022-07-12 12:25:18 INFO        0: [16] 7S/Tq:!Zm}jbJmf! 0000051b77c518a4887f735e3d565aa0aff10e5f01dc394069e602ccfb61190b
+2022-07-12 12:25:19 INFO        0: [14]   c[0a*bEb_$QEUZ 00000490f68efaee83d586ab5b397de6c0960411c93e3e230d4fbee312dd2346
+2022-07-12 12:25:19 INFO        0: [16] zCsxEcUp:}R9+?Hw 000007ccacf7efe96e809f6f1e70dd767bdca80005069f7d0990444ae6f258f9
+2022-07-12 12:25:19 INFO        0: [15]  2&t_4Adx1<>!#n" 0000002bbf8185b5088bdd61ffc4c68d532265cb178392c26fe549967907dd2c
+2022-07-12 12:25:20 INFO        0: [ 6]           A:'B[1 000002c558b6e97d480a01c2928b0b5e0980cfde5714b5186eb1415ab9db9bb9
+2022-07-12 12:25:21 INFO        0: [16] P aEwzB,@Cmvx<H[ 00000197cb005f696c4d78eb6d0d036f2bac23ca737ef454a64fea072ea325e3
+2022-07-12 12:25:32 INFO     Started
+2022-07-12 12:26:23 INFO     Started
+2022-07-12 12:26:40 INFO     Started
+2022-07-12 12:27:23 INFO     Started
+2022-07-12 12:27:35 INFO     Started
+2022-07-12 12:28:20 INFO     Started
+2022-07-12 12:28:47 INFO        0: [ 8]         MvxhldMT 000000018ededd88313eb357e56461b010c0dab642deff98b853b89278600f7e
+2022-07-12 12:29:58 INFO     Started
+2022-07-12 12:30:32 INFO     Started
+2022-07-12 12:31:49 INFO     Started
+2022-07-12 12:31:57 INFO     build program: kernel 'mine_eight' was part of a lengthy source build resulting from a binary cache miss (7.72 s)
+2022-07-12 12:32:11 INFO        0: [ 5]            W>wEo 00000015e07649006fa991d4766ec21e19734c4db6e792a25d49391d89dbebb3
+2022-07-12 12:32:33 INFO        0: [ 5]            oaA=4 000000daf123948e5e649129514f8c952fdeef065bf901b6363e12f483c86ac4
+2022-07-12 12:32:40 INFO        0: [ 7]          ;^v#i;3 0000007fcf8136962576f106a8243c0144447383269424748284450a8e373bc1
+2022-07-12 12:32:47 INFO        0: [13]    0)1IfP><j%9|L 0000002d838fea3bf61cd4153ea1d0e6e3098bf83cd5aa4f9a1c33c8ebd73fa1
+2022-07-12 12:32:55 INFO        0: [ 7]          43cOK<3 0000000647bc149c191c0b36534be4a3bfdb949efe386435b94dba2fcc93242f
+2022-07-12 12:33:02 INFO        0: [14]   wfbQw|/V}CE}); 00000072e8af7f3965850482cf737aabdd6fff6d58530bd5703cb56c3cc72af1
+2022-07-12 12:33:09 INFO        0: [16] (5g}jJyr0flv/.e? 0000003a81340d6f1ec806c600d7b2dd34b2c175c1afd13501b5416a48472226
+2022-07-12 12:33:16 INFO        0: [13]    }&f?a3M`u74#% 0000009f5cd0ff474d7fedefd4fc64c4e93ed89ce51d24c9ea79b08db09876df
+2022-07-12 12:33:23 INFO        0: [ 5]            "R6Iy 00000000b0a14fa0f361c8743ee52111821dc52deb3f94d32a9bf7a40540c16a
+2022-07-12 12:33:30 INFO        0: [ 7]          a,F5T9, 00000004b226365bf81a42441dca7ae8340874c9e3b74a6aba7d2e774c613ef2
+2022-07-12 12:33:37 INFO        0: [ 6]           (phHO[ 000000ef227cda664ddb4cfe4f660da83ef3f75e40c2eee2075afd80c39b8322
+2022-07-12 12:33:44 INFO        0: [10]       GZ:/s9je z 000000a110c16c42ff36d09d67b9fc460bc21ebacd69f9d4665ead33bd53665b
+2022-07-12 12:33:54 INFO     Started
+2022-07-12 12:34:01 INFO     build program: kernel 'mine_eight' was part of a lengthy source build resulting from a binary cache miss (7.21 s)
+2022-07-12 12:34:35 INFO     Started
+2022-07-12 12:42:19 INFO     Started
+2022-07-12 12:42:26 INFO     build program: kernel 'mine_eight' was part of a lengthy source build resulting from a binary cache miss (7.08 s)

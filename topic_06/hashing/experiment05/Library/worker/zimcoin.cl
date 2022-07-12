@@ -1,3 +1,5 @@
+#define max_nonce 32
+
 int count_leading_zeros(unsigned int *hash)
 {
     // /unsigned int x = hash[0];
@@ -169,12 +171,12 @@ kernel void get_random_numbers(global unsigned int *seed, global uchar *start,
 void generate_random_string(unsigned int *seed, uchar *w, uchar *len)
 {
     // initialize the output buffer
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < max_nonce; i++) {
         w[i] = 0;
     }
 
     // generate the string
-    *len = random_generator(seed, 1, 16);
+    *len = random_generator(seed, 1, max_nonce);
     for (int i = 0; i < *len; i++) {
         w[i] = random_generator(seed, 32, 126);
     }
@@ -185,7 +187,7 @@ kernel void get_random_string(global unsigned int *seed, global uchar* w,
 {
     // generate the random string
     unsigned int loc_seed = *seed;
-    uchar loc_w[16];
+    uchar loc_w[max_nonce];
     uchar loc_len;
 
     generate_random_string(&loc_seed, loc_w, &loc_len);
@@ -237,7 +239,7 @@ kernel void get_single_hash_nonce(
     for (int i = 0; i < *len; i++) {
         loc_w[i] = w[i];
     }
-    uchar loc_nonce[16];
+    uchar loc_nonce[max_nonce];
     uchar loc_nonce_len;
     unsigned int loc_hash[8];
 
@@ -271,7 +273,7 @@ kernel void mine_nonce(
         loc_w[i] = w[i];
     }
 
-    uchar loc_nonce[16];
+    uchar loc_nonce[max_nonce];
     uchar loc_nonce_len;
     unsigned int hash[8];
     int next_open_slot = 0;
@@ -283,7 +285,7 @@ kernel void mine_nonce(
         if (leading_zeros > next_open_slot) {
             nonce_len[leading_zeros] = loc_nonce_len;
             for (int j = 0; j < loc_nonce_len; j++) {
-                nonce[leading_zeros * 16 + j] = loc_nonce[j];
+                nonce[leading_zeros * max_nonce + j] = loc_nonce[j];
             }
 
             if (leading_zeros == next_open_slot+1) {

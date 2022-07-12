@@ -1,0 +1,56 @@
+2022-07-11 16:35:11 INFO     Started
+2022-07-11 16:35:20 INFO     build program: kernel 'mine_nonce' was part of a lengthy cache retrieval (6.07 s)
+2022-07-11 16:36:33 INFO        1: [16] ,J&4hdz@4UjR4.F$ 02c3a36ccc3b7d49d82274e734b082336032675e5c861d26c4ff13fc70cd2fd1
+2022-07-11 16:36:33 INFO        2: [ 4]             (P,Q 0012dfe1094bbb3b9775d07a6d7e121ff50e4934409e6ba82c50acb46e95559d
+2022-07-11 16:36:33 INFO        3: [ 9]        p~^OyPk8! 000109c80c6b59130e8fc8b62a8fd011f0b123002c73867e949f877d4335480a
+2022-07-11 16:36:33 INFO        4: [14]   YSs2v0,:6c;:,V 000049d3ccaf6b6bf19c3a668730640cacd1645c14ca65e0f7fe9e1b4d2cbbdd
+2022-07-11 16:36:33 INFO        5: [14]   j1kM\k2'&yq2vX 00000282be1d2787d56ff399a04812120eb236b121e05ae89a2d2c896b23f83e
+2022-07-11 16:36:33 INFO        6: [13]    aN`Q1&Adv~WlJ 000900008bb661462ed4c77f3f2dd0295adc79ea96ea22d433a3cd51d68f66d9
+2022-07-11 16:36:33 INFO        7: [11]      S\2NL}G{V55 00000006548a96122f0451369c1f1cc25e3395150da65e38879046862545826f
+2022-07-11 16:52:01 INFO        8: [11]      3x2F]W/KEZn 000000002a4ef34ed8a4a15ddb27631883f3e6be4bdd6e7167b71fd24a906c1e
+2022-07-11 17:09:19 INFO     Started
+2022-07-11 17:09:20 INFO     build program: kernel 'mine_nonce' was part of a lengthy cache retrieval (0.52 s)
+2022-07-11 17:09:22 INFO        1: [10]       m+3YxF (9q 08b5086073ee9c2ccae5c25c520b9661242f98c1eebac1a10eaafc35ec2167a9
+2022-07-11 17:09:22 INFO        2: [ 7]          zwgd:2W 00d28e65561bd8c5f39b7c8edefc7915349f88185ba6f2b4c86363d0c2d89ff5
+2022-07-11 17:09:22 INFO        3: [11]      rIaj,g2p&fE 00033595ff9b241f673c3351860d46986d9029c8bd133f60036d932a552ff5e2
+2022-07-11 17:09:22 INFO        4: [16] _Ero-[W]Y{t3~84& 000022efddfbeb76f67738f91f16568f8c55031a265500037ab689bcf30ef8c5
+2022-07-11 17:09:22 INFO        5: [ 6]           5:Mq]/ 0000084b5f607241350aeedd51fb6e960df8ce5520488a83f7318b264ac1b7cc
+2022-07-11 17:09:24 INFO        6: [ 4]             \ci& 00000084acaae889f2bd9799e92634f3bec21f3a637ca27c8319f65b39c17e7f
+2022-07-11 17:09:34 INFO        7: [16] .<g|einL7H]p:U|a 00000004b059417b1e88d4455e9af7c90bcd16b722787c27677a888d88f8f796
+2022-07-11 17:12:58 INFO     Started
+2022-07-11 17:13:04 INFO     build program: kernel 'mine_nonce' was part of a lengthy cache retrieval (4.79 s)
+2022-07-11 17:13:11 INFO        1: [11]      Xb??:>CG9n` 01989c609df1e8b87e32d08452a6d09a42eb5b584bf1624d66c1a1f74b4d8c57
+2022-07-11 17:13:11 INFO        2: [ 4]             ']0B 00b81547955798f2bc039c4af0f1cbcf5b1d992a6d4fac855ad8b853a19c6142
+2022-07-11 17:13:11 INFO        3: [ 3]              Lc@ 0002af7157047e287c0bea564d281186856e458cb4a6b7f8d74b705cfc77c54f
+2022-07-11 17:13:11 INFO        4: [14]   BZ <A|6!pvV0}= 0000b5936353463cd2aeeb7f9a21eeb72815b7e3e2a1e5ec352a70f1b26aad5a
+2022-07-11 17:13:11 INFO        5: [11]      ?HP9&) Z;iy 000005f2357f648483ea5b2df287d07c3c7fafc2bde360e342d7e6b86757bf9c
+2022-07-11 17:13:11 INFO        6: [ 6]           A7j0Q^ 0000005fb957260fe8fe3d689f98da6af27b4d639df84e1be99de7d897850f1b
+2022-07-11 17:13:18 INFO        7: [10]       !|x!OZ;Ij{ 00000002f7930e5b8f6f6208b9dbbea5080c07520d99b97d1a1dc74daf45e3bd
+2022-07-11 17:17:07 INFO     Started
+2022-07-11 17:17:13 INFO     build program: kernel 'mine_nonce' was part of a lengthy cache retrieval (0.47 s)
+2022-07-11 17:18:23 INFO        1: [ 5]            !N$Po 08514d917119dc4c28cffdbd08f1a2a3d36b052d5f1e8448c5ee12d46ffa9b0b
+2022-07-11 17:18:23 INFO        2: [15]  E6N#CU/8ao2CH T 0035afe17266a2155c1ed35ef310246f7b8a613f163087ba962c0777e7a6b745
+2022-07-11 17:18:23 INFO        3: [ 9]        a/0-`?mYz 00036aa0b333002aaf55262c356430b16038100f13d2f5a0ad2015da819bc3cb
+2022-07-11 17:18:23 INFO        4: [13]    UY{>`c&Hjm0Rt 00004aa277f3af0202f9b33d26839071de96f5dc9a8803bee1ee6f7d574822c3
+2022-07-11 17:18:23 INFO        5: [16] 2HG1SL>heeM_F'b' 000003abd06177297bc69366278a1c46bace64440cb56a6e0cbbee517641924c
+2022-07-11 17:18:23 INFO        6: [ 7]          +Q)A}GT 0000009bcc0704d21193144914fcd1a70783efbeece8388ade266e34aa688c9a
+2022-07-11 17:18:23 INFO        7: [10]       ]s8<4WIq^L 00000006bd1a6efa4d3bb68494b5d26f8292543bc5b3d80058eabdf728a7e9b7
+2022-07-11 17:21:56 INFO        8: [15]  $!H~FIzjh6LS*=8 00000000336616d61397adcadb027904447c11b6a5d94189e02e2d5ab9cd1825
+2022-07-12 02:07:43 INFO     Started
+2022-07-12 02:07:45 INFO     build program: kernel 'mine_nonce' was part of a lengthy cache retrieval (0.55 s)
+2022-07-12 02:08:57 INFO        1: [ 7]          oi$%Hgw 03adb347077dbf7f2a2c025660034d9d4948d19a7aff82e625d3a5ad223edb51
+2022-07-12 02:08:57 INFO        2: [14]   DyXkG*ZBS?r50) 004fce4392869180d5ff088ed9578f46641405de287935eda06468dd91f3dcbe
+2022-07-12 02:08:57 INFO        3: [ 9]        =/p4GjAA  0006951ff842e882ded7ffad4583dc4e3ad1d0a9eb6d0485fad018ec91047305
+2022-07-12 02:08:57 INFO        4: [13]    B6|ZW}AugU&G| 000016ec1299a05efc6be3bf145ed0062c44f30d68a4767912c7da2ba778207d
+2022-07-12 02:08:57 INFO        5: [14]   VjI4W];rA4rh]v 0000063921abed0ddec2ecbd15bb343b80323ecb678c5eff000489f256e8d28a
+2022-07-12 02:08:57 INFO        6: [11]      OFqZRRS^Ebc 000000c9d9a947828c4c34c2c0e2e5f6dbff421c8fcdfa93ac8545c81b66b5e2
+2022-07-12 02:08:57 INFO        7: [ 5]            w.TrS 000000019fd34f5ad597bd36fecabdb5cb0d790e331f60acd266a03ea9e0c60d
+2022-07-12 02:22:11 INFO     Started
+2022-07-12 02:22:19 INFO     build program: kernel 'mine_nonce' was part of a lengthy source build resulting from a binary cache miss (6.76 s)
+2022-07-12 02:24:18 INFO        1: [27]      {y+3$v8 &mjDwPV.V #IV<u>Zlg 08c1970f5de0d80404f4804ffeba0c6a53cbdfb553ed0aef0757dc8510d0dca5
+2022-07-12 02:24:18 INFO        2: [29]    MMMMMMMMMMMMMMMMMMMMMMMMMMMMM 0011d8caf17bcbd55a1f50bb185738b4af81c5ec67531fce49359e518e40c100
+2022-07-12 02:24:18 INFO        3: [ 5]                            &:^Kh 00036b3455998deec4dc33fd2a10d492c72fe4fb9385df616b8567a9f83760fc
+2022-07-12 02:24:18 INFO        4: [ 3]                              =ko 00007c8fcca8b81322aa0f282065e235427d528b7c0e4dca29c2dc84cd1dee5d
+2022-07-12 02:24:18 INFO        5: [22]           M,-g)kLTw+9\^B}GnC)c"> 000004a523c06c9497611a9df2213bab8deeea646d0982c6e420ac828ea4cb19
+2022-07-12 02:24:18 INFO        6: [23]          ~Yh)G~"Bs-nbPI}y$VY3XQG 000000d451ab093c0a2e0b1098b3ba4fd19867b4daaa347fd8687e3cea025774
+2022-07-12 02:24:18 INFO        7: [20]             [_BnVwTa[ml 7uHv&CE6 00000003f67099e5b6411f49c5fba2be4799917e3325d838fd33f6479048f0b8

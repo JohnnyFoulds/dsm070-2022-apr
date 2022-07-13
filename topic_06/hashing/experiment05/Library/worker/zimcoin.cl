@@ -352,8 +352,7 @@ kernel void mine_eight_sequential(
     global unsigned long *seed,
     global unsigned int *window_size,
     global uchar *w, global int *len,
-    global uchar *nonce, global uchar *nonce_len,
-    global unsigned int *next_open_slot
+    global uchar *nonce, global uchar *nonce_len
 )
 {
     for (int i = 0; i < max_seq_output_size; i++) {
@@ -371,9 +370,6 @@ kernel void mine_eight_sequential(
     uchar loc_nonce_len;
     unsigned int hash[8];
 
-    unsigned int loc_next_open_slot = 0;
-    *next_open_slot = 0;
-
     unsigned int loc_window_size = *window_size;
     int loc_len = *len;
     unsigned long current_index = start_index;
@@ -382,17 +378,26 @@ kernel void mine_eight_sequential(
         hash_seed(current_index, loc_w, loc_len, loc_nonce, &loc_nonce_len, hash);
 
         if (hash[0] == 0) {
-        //if (count_leading_zeros(hash) > 5) {
-            *next_open_slot = loc_next_open_slot + 1;
-            nonce_len[loc_next_open_slot] = loc_nonce_len;
-            for (int j = 0; j < max_seq_nonce_len; j++) {
-                nonce[loc_next_open_slot * max_seq_nonce_len + j] = loc_nonce[j];
+        //if (count_leading_zeros(hash) > 2) {
+            // find the next open slot
+            unsigned int next_open_slot = 0;
+            while (next_open_slot < max_seq_output_size) {
+                if (nonce_len[next_open_slot] == 0) {
+                    break;
+                }
+                next_open_slot++;
             }
 
-            loc_next_open_slot = loc_next_open_slot + 1;
-            if (loc_next_open_slot == max_seq_output_size)
-                break;
 
+            // output the nonce
+            nonce_len[next_open_slot] = loc_nonce_len;
+            for (int j = 0; j < max_seq_nonce_len; j++) {
+                nonce[next_open_slot * max_seq_nonce_len + j] = loc_nonce[j];
+            }
+
+            next_open_slot = next_open_slot + 1;
+            if (next_open_slot + 1 == max_seq_output_size)
+                break;
         }
         current_index++;
     }

@@ -293,7 +293,8 @@ kernel void mine_nonce(
     }
 }
 
-#define max_output_size 255
+#define max_seq_nonce_len 20
+#define max_seq_output_size 255
 
 void hash_seed(
     unsigned long seed,
@@ -302,21 +303,38 @@ void hash_seed(
     unsigned int *hash)
 {
     // initialize the input buffer
-    uchar input_buffer[512];
+    *nonce_len = 0;
+    //uchar input_buffer[512];
 
-    // generate the random string
-    *nonce_len = 1;
-    input_buffer[0] = 49;
-    // while (seed > 0) {
-    //     *nonce_len += 1;
-    //     input_buffer[*nonce_len - 1] = (seed % 10) + 48;
-    //     seed = seed / 10;
-    // }
+    // initialize nonce buffer
+    uchar nonce_reverse[max_seq_nonce_len];
+    for (int i = 0; i < max_seq_nonce_len; i++) {
+        nonce[i] = 0;
+        nonce_reverse[i] = 2;
+    }
 
-    // // reverse the numbers
-    // for (int i = 0; i < *nonce_len; i++) {
-    //     nonce[*nonce_len - 1 -i]  = input_buffer[i];
-    // }
+    // handle zero
+    if (seed == 0) {
+        *nonce_len = 1;
+        nonce[0] = 48;
+        return;
+    }
+
+    // convert the seed to a string
+    while (seed > 0) {
+        *nonce_len += 1;
+        nonce_reverse[*nonce_len-1] = (seed % 10) + 48;
+
+        // nonce_reverse[*nonce_len-1] = (seed % 10);
+        //nonce_reverse[*nonce_len-1] = 99;
+        seed = seed / 10;
+    }
+
+    // reverse the numbers
+    for (int i = 0; i < *nonce_len; i++) {
+        //nonce[i] = nonce_reverse[i];
+        nonce[*nonce_len - 1 -i]  = nonce_reverse[i];
+    }
 
     // // get the hash
     //single_hash(nonce, *nonce_len, hash);
@@ -330,7 +348,7 @@ kernel void mine_eight_sequential(
     global unsigned long *last_nonce
 )
 {
-    for (int i = 0; i < max_output_size; i++) {
+    for (int i = 0; i < max_seq_output_size; i++) {
         nonce_len[i] = 0;
     }
 
@@ -341,7 +359,7 @@ kernel void mine_eight_sequential(
         loc_w[i] = w[i];
     }
 
-    uchar loc_nonce[20];
+    uchar loc_nonce[max_seq_nonce_len];
     uchar loc_nonce_len;
     unsigned int hash[8];
     int next_open_slot = 0;
@@ -357,9 +375,12 @@ kernel void mine_eight_sequential(
         if (get_global_id(0) == 0) {
         //if (count_leading_zeros(hash) > 7) {
             nonce_len[next_open_slot] = loc_nonce_len;
-            for (int j = 0; j < loc_nonce_len; j++) {
-                nonce[next_open_slot * max_nonce + j] = loc_nonce[j];
+            for (int j = 0; j < max_seq_nonce_len; j++) {
+                nonce[next_open_slot * max_seq_nonce_len + j] = loc_nonce[j];
             }
+
+            if (next_open_slot == max_seq_output_size)
+                break;
 
             next_open_slot++;
         }

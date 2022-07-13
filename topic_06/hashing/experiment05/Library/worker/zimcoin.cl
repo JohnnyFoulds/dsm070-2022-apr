@@ -352,7 +352,8 @@ kernel void mine_eight_sequential(
     global unsigned long *seed,
     global unsigned int *window_size,
     global uchar *w, global int *len,
-    global uchar *nonce, global uchar *nonce_len
+    global uchar *nonce, global uchar *nonce_len,
+    global unsigned int *next_open_slot
 )
 {
     for (int i = 0; i < max_seq_output_size; i++) {
@@ -369,7 +370,9 @@ kernel void mine_eight_sequential(
     uchar loc_nonce[max_seq_nonce_len];
     uchar loc_nonce_len;
     unsigned int hash[8];
-    int next_open_slot = 0;
+
+    unsigned int loc_next_open_slot = 0;
+    *next_open_slot = 0;
 
     unsigned int loc_window_size = *window_size;
     int loc_len = *len;
@@ -380,15 +383,16 @@ kernel void mine_eight_sequential(
 
         if (hash[0] == 0) {
         //if (count_leading_zeros(hash) > 5) {
-            nonce_len[next_open_slot] = loc_nonce_len;
+            *next_open_slot = loc_next_open_slot + 1;
+            nonce_len[loc_next_open_slot] = loc_nonce_len;
             for (int j = 0; j < max_seq_nonce_len; j++) {
-                nonce[next_open_slot * max_seq_nonce_len + j] = loc_nonce[j];
+                nonce[loc_next_open_slot * max_seq_nonce_len + j] = loc_nonce[j];
             }
 
-            if (next_open_slot == max_seq_output_size)
+            loc_next_open_slot = loc_next_open_slot + 1;
+            if (loc_next_open_slot == max_seq_output_size)
                 break;
 
-            next_open_slot++;
         }
         current_index++;
     }

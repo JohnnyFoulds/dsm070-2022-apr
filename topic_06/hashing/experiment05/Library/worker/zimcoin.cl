@@ -239,9 +239,13 @@ kernel void mine_eight(
                 nonce[next_open_slot * max_nonce + j] = loc_nonce[j];
             }
 
-            if (next_open_slot == next_open_slot+1) {
-                next_open_slot++;
-            }
+            next_open_slot++;
+
+            // confirm the removel of this code and the simple replacement above
+            // this looks like it might have been a weird bug.
+            // if (next_open_slot == next_open_slot+1) {
+            //     next_open_slot++;
+            // }
         }
     }
 
@@ -287,4 +291,80 @@ kernel void mine_nonce(
             }
         }
     }
+}
+
+#define max_output_size 255
+
+void hash_seed(
+    unsigned long seed,
+    uchar *w, int len, 
+    uchar *nonce, uchar *nonce_len,
+    unsigned int *hash)
+{
+    // initialize the input buffer
+    uchar input_buffer[512];
+
+    // generate the random string
+    *nonce_len = 1;
+    input_buffer[0] = 49;
+    // while (seed > 0) {
+    //     *nonce_len += 1;
+    //     input_buffer[*nonce_len - 1] = (seed % 10) + 48;
+    //     seed = seed / 10;
+    // }
+
+    // // reverse the numbers
+    // for (int i = 0; i < *nonce_len; i++) {
+    //     nonce[*nonce_len - 1 -i]  = input_buffer[i];
+    // }
+
+    // // get the hash
+    //single_hash(nonce, *nonce_len, hash);
+}
+
+kernel void mine_eight_sequential(
+    global unsigned long *seed,
+    global unsigned int *window_size,
+    global uchar *w, global int *len,
+    global uchar *nonce, global uchar *nonce_len,
+    global unsigned long *last_nonce
+)
+{
+    for (int i = 0; i < max_output_size; i++) {
+        nonce_len[i] = 0;
+    }
+
+    unsigned long start_index = *seed + (get_global_id(0) * *window_size);
+
+    uchar loc_w[512];
+    for (int i = 0; i < *len; i++) {
+        loc_w[i] = w[i];
+    }
+
+    uchar loc_nonce[20];
+    uchar loc_nonce_len;
+    unsigned int hash[8];
+    int next_open_slot = 0;
+
+    unsigned int loc_window_size = *window_size;
+    int loc_len = *len;
+    unsigned long current_index = start_index;
+
+    for (unsigned int i = 0; i < loc_window_size; i++) {
+        hash_seed(current_index, loc_w, loc_len, loc_nonce, &loc_nonce_len, hash);
+
+        // if (hash[0] == 0) {
+        if (get_global_id(0) == 0) {
+        //if (count_leading_zeros(hash) > 7) {
+            nonce_len[next_open_slot] = loc_nonce_len;
+            for (int j = 0; j < loc_nonce_len; j++) {
+                nonce[next_open_slot * max_nonce + j] = loc_nonce[j];
+            }
+
+            next_open_slot++;
+        }
+        current_index++;
+    }
+
+    last_nonce[get_global_id(0)] = current_index - 1;
 }

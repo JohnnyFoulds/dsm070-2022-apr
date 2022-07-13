@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/foulds/code/dsm070-2022-apr'
+make: Leaving directory `/Users/foulds/code/dsm070-2022-apr'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+

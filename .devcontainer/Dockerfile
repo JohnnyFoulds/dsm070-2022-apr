@@ -9,7 +9,14 @@ ARG NODE_VERSION="none"
 RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
 
 RUN apt-get update
-RUN apt-get install build-essential
+RUN apt-get -y install build-essential
+
+RUN apt-get -y install ocl-icd-libopencl1 \
+    opencl-headers \
+    pocl-opencl-icd \
+    ocl-icd-dev \
+    ocl-icd-opencl-dev \
+    clinfo
 
 # [Optional] If your pip requirements rarely change, uncomment this section to add them to the image.
 RUN python3 -m pip install --upgrade pip

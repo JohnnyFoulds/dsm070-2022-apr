@@ -69,10 +69,24 @@ pip install -r requirements.txt
 ## pyOpenCL Build
 
 ```bash
-pip install wheel==0.37.1 setuptools==44.0.0 pybind11==2.9.2 
+# install the libraries if building in linux
+apt-get install ocl-icd-libopencl1 \
+    opencl-headers \
+    pocl-opencl-icd \
+    ocl-icd-dev \
+    ocl-icd-opencl-dev \
+    clinfo
+
+# for the m1 platform do the following, or change it to the correct one for your machine
+# x86_64-linux-gnu
+sudo ln -s /usr/lib/aarch64-linux-gnu/libOpenCL.so.1 /usr/lib/libOpenCL.so
+
+#pip install wheel==0.37.1 setuptools==44.0.0 pybind11==2.9.2 
+pip install wheel==0.37.1 pybind11==2.9.2 
 wget https://files.pythonhosted.org/packages/23/ce/02f9588cb19cfcbd75f299545b1625a060b1ee10f0542557b7786995f3e5/pyopencl-2022.1.6.tar.gz
 tar -xf pyopencl-2022.1.6.tar.gz 
 cd pyopencl-2022.1.6
+python setup.py bdist_wheel --universal 
 ```
 
 ## Sample Results

@@ -9,12 +9,21 @@ source /Users/foulds/code/dsm070-2022-apr/topic_06/bin/activate
 
 # upgrade pip and install the wheel packages
 cd /Users/foulds/code/dsm070-2022-apr/topic_06/
+
+# source ~/env/dsm070/bin/activate
+# rm -rf ~/env/opencl
+# python3 -m venv ~/env/opencl
+# source ~/env/opencl/bin/activate
+#pip install --upgrade pip==22.1.1
+#pip install wheel==0.37.1 setuptools==44.0.0 pybind11==2.9.2 
+
 python3 -m pip install --upgrade pip
 pip install wheel
 
 # install the required packages
 pip install -r requirements.txt
 ```
+
 
 ### Linux Config
 
@@ -55,6 +64,15 @@ pip install --upgrade pip
 cd "$DSM070_SRC\topic_06"
 pip install wheel
 pip install -r requirements.txt
+```
+
+## pyOpenCL Build
+
+```bash
+pip install wheel==0.37.1 setuptools==44.0.0 pybind11==2.9.2 
+wget https://files.pythonhosted.org/packages/23/ce/02f9588cb19cfcbd75f299545b1625a060b1ee10f0542557b7786995f3e5/pyopencl-2022.1.6.tar.gz
+tar -xf pyopencl-2022.1.6.tar.gz 
+cd pyopencl-2022.1.6
 ```
 
 ## Sample Results

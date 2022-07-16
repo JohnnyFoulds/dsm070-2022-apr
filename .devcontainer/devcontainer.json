@@ -49,5 +49,9 @@
 		"git": "os-provided",
 		"git-lfs": "3.1.4",
 		"fish": "latest"
-	}
+	},
+
+	"mounts": [
+		"source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"		
+	]
 }

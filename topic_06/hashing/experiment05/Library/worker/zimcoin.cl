@@ -14,10 +14,10 @@ int count_leading_zeros(unsigned int *hash)
     }
 
     for (int i = 0; i < 32; i++) {
-        if (c[i] > 9) {
+        if (c[i] > 0xf) {
             return count;
         }
-        if ((c[i] > 0) && (c[i] < 9)) {
+        if ((c[i] > 0) && (c[i] <= 0xf)) {
             return (count + 1);
         }
 
@@ -402,3 +402,103 @@ kernel void mine_eight_sequential(
         current_index++;
     }
 }
+
+kernel void mine_number_sequential(
+    global unsigned long *seed,
+    global unsigned int *window_size,
+    global uchar *w, global int *len,
+    global uchar *nonce, global uchar *nonce_len,
+    global uchar *number
+)
+{
+    for (int i = 0; i < max_seq_output_size; i++) {
+        nonce_len[i] = 0;
+    }
+
+    unsigned long start_index = *seed + (get_global_id(0) * *window_size);
+
+    uchar loc_w[512];
+    for (int i = 0; i < *len; i++) {
+        loc_w[i] = w[i];
+    }
+
+    uchar loc_nonce[max_seq_nonce_len];
+    uchar loc_nonce_len;
+    unsigned int hash[8];
+
+    unsigned int loc_window_size = *window_size;
+    int loc_len = *len;
+    unsigned long current_index = start_index;
+
+    for (unsigned int i = 0; i < loc_window_size; i++) {
+        hash_seed(current_index, loc_w, loc_len, loc_nonce, &loc_nonce_len, hash);
+        int leading_zeros = count_leading_zeros(hash);
+
+        if (leading_zeros == *number) {
+        //if (count_leading_zeros(hash) > 2) {
+            // find the next open slot
+            unsigned int next_open_slot = 0;
+            while (next_open_slot < max_seq_output_size) {
+                if (nonce_len[next_open_slot] == 0) {
+                    break;
+                }
+                next_open_slot++;
+            }
+
+
+            // output the nonce
+            nonce_len[next_open_slot] = loc_nonce_len;
+            for (int j = 0; j < max_seq_nonce_len; j++) {
+                nonce[next_open_slot * max_seq_nonce_len + j] = loc_nonce[j];
+            }
+
+            next_open_slot = next_open_slot + 1;
+            if (next_open_slot + 1 == max_seq_output_size)
+                break;
+        }
+        current_index++;
+    }
+}
+
+kernel void mine_nonce_sequential(
+    global unsigned long *seed,
+    global unsigned int *window_size,
+    global uchar *w, global int *len,
+    global uchar *nonce, global uchar *nonce_len
+)
+{
+    for (int i = 0; i < max_seq_output_size; i++) {
+        nonce_len[i] = 0;
+    }
+
+    unsigned long start_index = *seed + (get_global_id(0) * *window_size);
+
+    uchar loc_w[512];
+    for (int i = 0; i < *len; i++) {
+        loc_w[i] = w[i];
+    }
+
+    uchar loc_nonce[max_seq_nonce_len];
+    uchar loc_nonce_len;
+    unsigned int hash[8];
+
+    unsigned int loc_window_size = *window_size;
+    int loc_len = *len;
+    unsigned long current_index = start_index;
+
+    for (unsigned int i = 0; i < loc_window_size; i++) {
+        hash_seed(current_index, loc_w, loc_len, loc_nonce, &loc_nonce_len, hash);
+        int leading_zeros = count_leading_zeros(hash);
+
+        if ((leading_zeros > 0) && (nonce_len[leading_zeros] == 0)) {
+
+            // output the nonce
+            nonce_len[leading_zeros] = loc_nonce_len;
+            for (int j = 0; j < max_seq_nonce_len; j++) {
+                nonce[leading_zeros * max_seq_nonce_len + j] = loc_nonce[j];
+            }
+        }
+        current_index++;
+    }
+}
+

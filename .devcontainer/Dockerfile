@@ -18,6 +18,17 @@ RUN apt-get -y install ocl-icd-libopencl1 \
     ocl-icd-opencl-dev \
     clinfo
 
+# RUN apt-get -y install \
+#     ocl-icd-libopencl1 \
+#     opencl-headers \
+#     clinfo
+
+RUN mkdir -p /etc/OpenCL/vendors && \
+    echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
+    
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
+
 # [Optional] If your pip requirements rarely change, uncomment this section to add them to the image.
 RUN python3 -m pip install --upgrade pip
 RUN pip install setuptools wheel

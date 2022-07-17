@@ -45,7 +45,12 @@ void single_hash(uchar *w, int len, unsigned int *hash)
         input_buffer[i / 4] = (w_3 << 24) | (w_2 << 16) | (w_1 << 8) | w_0;
     }
 
-    hash_private(input_buffer, len, hash);
+    __private unsigned int hash_priv[8];
+    hash_private(input_buffer, len, hash_priv);
+
+    for (int i = 0; i < 8; i++) {
+        hash[i] = hash_priv[i];
+    }
 }
 
 kernel void get_single_hash(global uchar *w, global int *len,

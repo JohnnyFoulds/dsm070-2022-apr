@@ -57,6 +57,14 @@ kernel void get_hashed_nonce(global unsigned int *w, global int *len,
     global unsigned long *nonce, global unsigned int *hash)
 {
     *nonce = 123456789;
+
+    // w[*len - 2] = 1122222;
+    // w[*len - 1] = 22222;
+
+    // w[*len - 2] = *nonce & 0xFFFFFFFF;
+    // w[*len - 1] = (*nonce >> 32);
+
+    hash_global(w, *len, hash);
 }
 
 kernel void get_single_hash(global uchar *w, global int *len,

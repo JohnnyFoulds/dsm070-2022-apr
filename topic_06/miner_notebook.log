@@ -1,0 +1,6 @@
+2022-07-18 14:14:32 INFO     build program: kernel 'get_hashed_nonce' was part of a lengthy source build resulting from a binary cache miss (6.19 s)
+2022-07-18 14:14:50 INFO     build program: kernel 'get_hashed_nonce' was part of a lengthy source build resulting from a binary cache miss (6.14 s)
+2022-07-18 14:16:00 INFO     build program: kernel 'get_hashed_nonce' was part of a lengthy source build resulting from a binary cache miss (6.12 s)
+2022-07-18 14:17:19 INFO     build program: kernel 'get_hashed_nonce' was part of a lengthy source build resulting from a binary cache miss (6.17 s)
+2022-07-18 14:40:58 INFO     build program: kernel 'get_single_hash' was part of a lengthy source build resulting from a binary cache miss (5.74 s)
+2022-07-18 14:51:42 INFO     build program: kernel 'get_single_hash' was part of a lengthy source build resulting from a binary cache miss (6.15 s)

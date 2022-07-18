@@ -6,6 +6,7 @@
         "Hashcat",
         "hostbuf",
         "itemsize",
+        "levelname",
         "nbytes",
         "opencl",
         "Prehashed",
@@ -13,9 +14,12 @@
         "SECP",
         "summy",
         "thequickbrownfox",
+        "tobytes",
         "txid",
+        "ulonglong",
         "venv",
-        "Zimcoin"
+        "Zimcoin",
+        "Zimcoins"
     ],
     "python.testing.unittestArgs": [
         "-v",

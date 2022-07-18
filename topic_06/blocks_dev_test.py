@@ -4,6 +4,8 @@ implemented to verify correctness.
 """
 
 import unittest
+import binascii
+import hashlib
 from blocks import Block, UserState, mine_block
 from transactions import Transaction, create_signed_transaction
 
@@ -96,7 +98,55 @@ class BlockDevelopment(unittest.TestCase):
         # test with an invalid nonce
         first_block.nonce = 0
         first_block.block_id = first_block.calculate_block_id()
-        
+
         self.assertFalse(
             first_block.verify_proof_of_work(),
             'The first block should have an invalid proof of work.')
+
+    def test_understand_digest_update(self):
+        """
+        Understand how the SHA256 digest update works.
+        """
+        first_string = "hello"
+        second_string = "world"
+
+        # do the hash in one go
+        complete_hash = hashlib.sha256()
+        complete_hash.update((first_string + second_string).encode('utf-8'))
+        complete_hash = complete_hash.digest()
+
+        # do the hash in steps with update
+        partial_hash = hashlib.sha256()
+        partial_hash.update(first_string.encode('utf-8'))
+        partial_hash.update(second_string.encode('utf-8'))
+        partial_hash = partial_hash.digest()
+
+        self.assertEqual(complete_hash, partial_hash)
+
+    def test_nonce_value(self):
+        """
+        Test the mechanism to try out different nonce values. This will
+        be important to understand when implementing the mine function.
+        """
+        # get the block for testing
+        block = self.get_transactions_block()
+        #print(binascii.hexlify(block.block_id))
+
+        # build the byte array without the nonce
+        block_bytes = block.to_bytes()
+
+        # get the byte array of the valid nonce
+        nonce_bytes = block.nonce.to_bytes(8, byteorder='little', signed=False)
+        print(nonce_bytes)
+
+        # get the hash digest of the combined byte arrays that should match
+        # the block_id
+        block_id = hashlib.sha256()
+        block_id.update(block_bytes + nonce_bytes)
+
+        self.assertEqual(
+            block_id.digest(),
+            block.block_id,
+        )
+
+        #print(binascii.hexlify(block_id.digest()))

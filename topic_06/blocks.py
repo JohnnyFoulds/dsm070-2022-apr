@@ -102,6 +102,27 @@ class Block:
 
         return digest.digest()
 
+    def to_bytes(self) -> bytes:
+        """
+        Get a byte array representation of the block without the nonce
+        value from which the block_id should be calculated.
+
+        Returns:
+            bytes: A byte array representation of the block.
+        """
+        block_bytes = bytearray()
+        block_bytes.extend(self.previous)
+        block_bytes.extend(self.miner)
+
+        # process the transactions in the block
+        for transaction in self.transactions:
+            block_bytes.extend(transaction.txid)
+
+        block_bytes.extend(self.timestamp.to_bytes(8, byteorder='little', signed=False))
+        block_bytes.extend(self.difficulty.to_bytes(16, byteorder='little', signed=False))
+
+        return block_bytes
+
     def verify_proof_of_work(self) -> bool:
         """
         Verify that the proof of work is valid.

@@ -155,3 +155,17 @@ class Transaction:
         transaction.txid = transaction.create_txid()
 
         return transaction
+
+# Wrapper method to create a signed transaction
+def create_signed_transaction(sender_private_key:ec.EllipticCurvePrivateKey,
+                              recipient_hash:bytes, amount:int, fee:int,
+                              nonce:int) -> Transaction:
+    """
+    Create a hash of the recipient transaction data.
+    """
+    return Transaction.create_signed_transaction(
+        sender_private_key,
+        recipient_hash,
+        amount,
+        fee,
+        nonce)

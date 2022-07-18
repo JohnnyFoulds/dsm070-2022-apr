@@ -57,6 +57,7 @@ kernel void get_hashed_nonce(global unsigned int *w, global int *len,
     global unsigned long *nonce, global unsigned int *hash)
 {
     *nonce = 9223372036854775807;
+    //*nonce = 9223372;
 
     // create the private input buffer
     __private unsigned int input_buffer[512];

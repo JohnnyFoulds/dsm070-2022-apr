@@ -30,7 +30,7 @@ class BlocksTest(unittest.TestCase):
         alice = ec.generate_private_key(ec.SECP256K1)
         alice_address = calculate_sha1_hash(private_key_to_public_key(alice))
 
-        block_1 = mine_block(bytes(32), 0, alice_address, [], int(time()), 100)
+        block_1 = mine_(block(bytes(32), 0, alice_address, [], int(time()), 100)
         states = block_1.verify_and_get_changes(100, dict())
         self.assertEqual(states[alice_address].balance, 10_000)
 

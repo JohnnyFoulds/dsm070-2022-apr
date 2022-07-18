@@ -56,15 +56,29 @@ void single_hash(uchar *w, int len, unsigned int *hash)
 kernel void get_hashed_nonce(global unsigned int *w, global int *len,
     global unsigned long *nonce, global unsigned int *hash)
 {
-    *nonce = 123456789;
+    *nonce = 9223372036854775807;
 
-    // w[*len - 2] = 1122222;
-    // w[*len - 1] = 22222;
+    // create the private input buffer
+    __private unsigned int input_buffer[512];
+    for (int i = 0; i < 512; i++) {
+        input_buffer[i] = 0;
+    }    
 
-    // w[*len - 2] = *nonce & 0xFFFFFFFF;
-    // w[*len - 1] = (*nonce >> 32);
+    // initialize the input buffer
+    for (int i = 0; i < *len / 4; i++) {
+        input_buffer[i] = w[i];
+    }
 
-    hash_global(w, *len, hash);
+    // add the nonce to the input buffer
+    input_buffer[*len / 4] = *nonce & 0xFFFFFFFF;
+    input_buffer[(*len + 4) / 4] = (*nonce >> 32);
+
+
+    // input_buffer[*len - 1] = *nonce & 0xFFFFFFFF;
+    // input_buffer[*len - 2] = (*nonce >> 32);
+
+    hash_priv_to_glbl(&input_buffer, *len + 8, hash);
+    //hash_priv_to_glbl(&input_buffer, *len, hash);
 }
 
 kernel void get_single_hash(global uchar *w, global int *len,

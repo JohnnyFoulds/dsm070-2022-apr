@@ -3,6 +3,8 @@ This module implements the functionality for a block in the Zimcoin
 blockchain.
 """
 
+import hashlib
+
 class UserState:
     """
     This class will be used to help keep track of the state of users as
@@ -79,6 +81,45 @@ class Block:
                 the users after the block was mined.
         """
 
+    def calculate_block_id(self) -> bytes:
+        """
+        Calculate the block id
+
+        Returns:
+            bytes: A 32 byte hash of the block.
+        """
+        digest = hashlib.sha256()
+        digest.update(self.previous)
+        digest.update(self.miner)
+
+        # process the transactions in the block
+        for transaction in self.transactions:
+            digest.update(transaction.txid)
+
+        digest.update(self.timestamp.to_bytes(8, byteorder='little', signed=False))
+        digest.update(self.difficulty.to_bytes(16, byteorder='little', signed=False))
+        digest.update(self.nonce.to_bytes(8, byteorder='little', signed=False))
+
+        return digest.digest()
+
+    def verify_proof_of_work(self) -> bool:
+        """
+        Verify that the proof of work is valid.
+
+        Returns:
+            bool: True if the proof of work is valid, False otherwise.
+        """
+        # calculate the block id
+        block_id = self.calculate_block_id()
+        assert self.block_id == block_id, 'Block id value not valid'
+
+        block_id_int = int.from_bytes(block_id, byteorder='big')
+
+        # calculate the target
+        target = 2 ** 256 // self.difficulty
+
+        # verify that the block id is less than the difficulty
+        return block_id_int < target
 
 # This method is a wrapper function around the miner in the Miner class.
 def mine_block(previous : bytes, height : int, miner : bytes,

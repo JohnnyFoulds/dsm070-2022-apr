@@ -13,7 +13,7 @@ class ZimcoinMiner:
     """
     def __init__(self,
                  platform_id : int, device_id : int,
-                 window_size : int = 1e7):
+                 window_size : int = 1e6):
         """
         Initialize the miner.
         """

@@ -31,6 +31,9 @@ int count_leading_zeros(unsigned int *hash)
     }
 }
 
+/*
+ * Calculate the hash value for the input string.
+ */
 void single_hash(uchar *w, int len, unsigned int *hash)
 {
     // initialize the input buffer
@@ -57,6 +60,10 @@ void single_hash(uchar *w, int len, unsigned int *hash)
     }
 }
 
+/*
+ * Tis kernel calculates the hash value for the input string and outputs
+ * the hash value and number of leading hex zeros.
+ */
 kernel void get_single_hash(global uchar *w, global int *len,
 global unsigned int *hash, global uchar *leading_zeros)
 {
@@ -192,10 +199,7 @@ kernel void get_hashed_nonce(global unsigned int *w, global int *len,
     *nonce = 9223372036854775807;
 
     // create the private input buffer
-    __private unsigned int input_buffer[512];
-    for (int i = 0; i < 512; i++) {
-        input_buffer[i] = 0;
-    }    
+    __private unsigned int input_buffer[256];
 
     // initialize the input buffer
     for (int i = 0; i < *len / 4; i++) {
@@ -208,3 +212,81 @@ kernel void get_hashed_nonce(global unsigned int *w, global int *len,
 
     hash_priv_to_glbl(&input_buffer, *len + 8, hash);
 }
+
+/**
+ * This function is used to test if the hash value is less than or equal
+ * to the target value.
+ */
+bool is_target_met(unsigned int *hash, unsigned int *target)
+{
+    for (int i = 0; i < 8; i++) {
+        uchar* hash_word = (uchar*)&hash[i];
+        uchar* target_word = (uchar*)&target[i];
+
+        for (int j = 0; j < 4; j++) {
+            if (hash_word[j] > target_word[j]) {
+                return false;
+            }
+            else if (hash_word[j] < target_word[j]) {
+                return true;
+            }
+        }
+    }
+
+    return true;
+}
+
+/**
+ * Using a sequential search find a nonce that meets the target
+ * requirement.
+ *
+ * NOTE: For real world applications, a random search pattern should
+ * be used instead to find the nonce.
+ */
+kernel void mine_sequential(
+    global unsigned int *window_size,
+    global unsigned int *block_data,
+    global int *block_data_len,
+    global unsigned long *nonce,
+    global unsigned int *target,
+    global unsigned int *output_hash)
+{
+    // set the start index for the thread
+    unsigned long start_nonce = get_global_id(0) * *window_size;
+
+    // initialize the input buffer
+    __private unsigned int input_buffer[256];
+    
+    for (int i = 0; i < *block_data_len / 4; i++) {
+        input_buffer[i] = block_data[i];
+    }
+
+    // attempt a sequation search for the nonce
+    unsigned int hash[8];
+    unsigned long current_nonce = start_nonce;
+
+    for (unsigned int i = 0; i < *window_size; i++) {
+        // add the nonce to the input buffer
+        input_buffer[*block_data_len / 4] = current_nonce & 0xFFFFFFFF;
+        input_buffer[(*block_data_len + 4) / 4] = (current_nonce >> 32);
+
+        // get the hash value
+        hash_private(input_buffer, *block_data_len + 8, hash);
+
+        // check if the hash is less than or equal to the target
+        if (is_target_met(hash, target)) {
+            *nonce = current_nonce;
+
+            for (int j = 0; j < 8; j++) {
+                output_hash[j] = hash[j];
+            }
+
+            return;
+        }
+
+        // set the next nonce to try
+        current_nonce++;
+    }
+}
+
+

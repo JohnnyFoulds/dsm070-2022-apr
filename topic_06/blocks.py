@@ -123,6 +123,15 @@ class Block:
 
         return block_bytes
 
+    def calculate_target(self) -> int:
+        """
+        Calculate the target for the proof of work.
+
+        Returns:
+            int: The target for the proof of work.
+        """
+        return 2 ** 256 // self.difficulty
+
     def verify_proof_of_work(self) -> bool:
         """
         Verify that the proof of work is valid.
@@ -137,7 +146,7 @@ class Block:
         block_id_int = int.from_bytes(block_id, byteorder='big')
 
         # calculate the target
-        target = 2 ** 256 // self.difficulty
+        target = self.calculate_target()
 
         # verify that the block id is less than the difficulty
         return block_id_int < target

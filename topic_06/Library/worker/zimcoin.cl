@@ -1,5 +1,9 @@
 #define max_nonce 16
 
+#ifndef NULL
+#define NULL 0L
+#endif
+
 /*
  * This helper function is used to count the number of leading hex zeros
  * as used during the prize activity.
@@ -244,6 +248,7 @@ bool is_target_met(unsigned int *hash, unsigned int *target)
  * be used instead to find the nonce.
  */
 kernel void mine_sequential(
+    global unsigned long *seed,
     global unsigned int *window_size,
     global unsigned int *block_data,
     global int *block_data_len,
@@ -252,7 +257,10 @@ kernel void mine_sequential(
     global unsigned int *output_hash)
 {
     // set the start index for the thread
-    unsigned long start_nonce = get_global_id(0) * *window_size;
+    unsigned long start_nonce = *seed + (get_global_id(0) * *window_size);
+
+    if (get_global_id(0) == 0)
+          *nonce = 0;
 
     // initialize the input buffer
     __private unsigned int input_buffer[256];
@@ -261,11 +269,22 @@ kernel void mine_sequential(
         input_buffer[i] = block_data[i];
     }
 
+    // copy the target to local memory
+    unsigned int loc_target[8];
+    for (int i = 0; i < 8; i++) {
+        loc_target[i] = target[i];
+    }
+
     // attempt a sequation search for the nonce
     unsigned int hash[8];
     unsigned long current_nonce = start_nonce;
 
     for (unsigned int i = 0; i < *window_size; i++) {
+        // if the nonce has been set in another thread stop the search
+        if (*nonce != 0) {
+            return;
+        }
+
         // add the nonce to the input buffer
         input_buffer[*block_data_len / 4] = current_nonce & 0xFFFFFFFF;
         input_buffer[(*block_data_len + 4) / 4] = (current_nonce >> 32);
@@ -274,11 +293,13 @@ kernel void mine_sequential(
         hash_private(input_buffer, *block_data_len + 8, hash);
 
         // check if the hash is less than or equal to the target
-        if (is_target_met(hash, target)) {
+        if (is_target_met(hash, loc_target)) {
             *nonce = current_nonce;
 
-            for (int j = 0; j < 8; j++) {
-                output_hash[j] = hash[j];
+            if (output_hash != NULL) {
+                for (int j = 0; j < 8; j++) {
+                    output_hash[j] = hash[j];
+                }
             }
 
             return;

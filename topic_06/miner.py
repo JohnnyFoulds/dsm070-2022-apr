@@ -3,19 +3,24 @@ This module implements the Zimcoin miner functionality.
 """
 
 import pyopencl as cl
+import numpy as np
+from blocks import Block
 
 
 class ZimcoinMiner:
     """
     Mine for Zimcoins using OpenCL.
     """
-    def __init__(self, platform_id : int, device_id : int):
+    def __init__(self,
+                 platform_id : int, device_id : int,
+                 window_size : int = 1e7):
         """
         Initialize the miner.
         """
         # set the opencl platform and device
         self.platform_id = platform_id
         self.device_id = device_id
+        self.window_size = window_size
 
         # set the opencl source files
         self.program_files = [
@@ -80,3 +85,56 @@ class ZimcoinMiner:
         """
         Mine for Zimcoins.
         """
+        # create the block from the input data
+        input_block = Block(
+            previous=previous,
+            height=height,
+            miner=miner,
+            transactions=transactions,
+            timestamp=timestamp,
+            difficulty=difficulty,
+            block_id=None,
+            nonce=None)
+
+        # set up the variables for finding the nonce
+        block_data = np.frombuffer(input_block.to_bytes(), dtype=np.uint32)
+        block_data_len = np.int32(block_data.size) * 4
+
+        seed = np.ulonglong(0)
+        
+        target = np.frombuffer(
+            input_block.calculate_target() \
+                .to_bytes(32, byteorder='big', signed=False),
+            np.uint32)
+
+        nonce = np.zeros(shape=1, dtype=np.ulonglong)
+
+        # allocate the memory for the variables on the device
+        cl_window_size = cl.Buffer(self.cl_context, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=np.uint32(self.window_size))
+        cl_block_data = cl.Buffer(self.cl_context, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=block_data)
+        cl_block_data_len = cl.Buffer(self.cl_context, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=block_data_len)
+        cl_nonce = cl.Buffer(self.cl_context, cl.mem_flags.WRITE_ONLY, nonce.nbytes)
+        cl_target = cl.Buffer(self.cl_context, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=target)
+
+        # search for a valid nonce
+        while nonce[0] == 0:
+            cl_seed = cl.Buffer(self.cl_context, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=seed)
+
+            # execute the kernel
+            self.cl_program.mine_sequential(
+                self.cl_queue, (self.thread_count,), None,
+                cl_seed,
+                cl_window_size,
+                cl_block_data,
+                cl_block_data_len,
+                cl_nonce,
+                cl_target,
+                None)
+
+            # get the results
+            cl.enqueue_copy(self.cl_queue, nonce, cl_nonce)
+
+            seed = np.ulonglong(seed + self.thread_count * self.window_size)
+
+        # return the nonce
+        return int.from_bytes(nonce[0].tobytes(), byteorder='little')

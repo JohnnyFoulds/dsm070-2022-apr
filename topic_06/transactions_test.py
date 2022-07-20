@@ -138,7 +138,7 @@ class InitialTransactionTests(unittest.TestCase):
                     sender_balance=100,
                     sender_previous_nonce=4)
 
-            with self.assertRaisesRegex(ValueError, 'Insufficient funds'):
+            with self.assertRaisesRegex(ValueError, 'Balance too small'):
                 tx = self.create_test_transaction(amount=101, fee=2, nonce=5)
                 tx.verify(
                     sender_balance=100,
@@ -396,7 +396,7 @@ class CourseworkTransactionTests(unittest.TestCase):
         tx.verify(sender_balance=100, sender_previous_nonce=tx.nonce-1)
 
         # verify with a balance that is too low
-        with self.assertRaisesRegex(ValueError, 'Insufficient funds'):
+        with self.assertRaisesRegex(ValueError, 'Balance too small'):
             tx.verify(sender_balance=10, sender_previous_nonce=tx.nonce-1)
 
         # verify with a previous nonce that is incorrect

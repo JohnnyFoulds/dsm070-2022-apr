@@ -47,7 +47,7 @@ class Transaction:
         if self.amount < 1:
             raise ValueError('Invalid amount')
         if self.amount > sender_balance:
-            raise ValueError('Insufficient funds')
+            raise ValueError('Balance too small')
         if not float(self.amount).is_integer():
             raise ValueError('The amount should be a whole number')
 

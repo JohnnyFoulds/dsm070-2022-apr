@@ -193,7 +193,7 @@ class Block:
 
         # add the miner to the user states
         if self.miner not in user_states:
-            user_states[self.miner] = UserState(0, 0)
+            user_states[self.miner] = UserState(0, -1)
 
         # allocate the block reward to the miner
         miner_state = user_states[self.miner]
@@ -211,6 +211,20 @@ class Block:
 
             # add the receiver to the user states if required
             if transaction.recipient_hash not in user_states:
-                user_states[transaction.recipient_hash] = UserState(0, 0)
+                user_states[transaction.recipient_hash] = UserState(0, -1)
+            
+            receiver_state = user_states[transaction.recipient_hash]
 
+            # update the nonce of the sender
+            sender_state.nonce += 1
+
+            # decrease the balance of the sender
+            sender_state.balance -= transaction.amount
+
+            # increase the balance of the receiver
+            receiver_state.balance += transaction.amount - transaction.fee
+
+            # allocate the fee to the miner
+            miner_state.balance += transaction.fee
+            
         return user_states

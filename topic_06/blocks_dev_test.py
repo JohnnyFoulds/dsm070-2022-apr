@@ -151,3 +151,105 @@ class BlockDevelopment(unittest.TestCase):
         )
 
         #print(binascii.hexlify(block_id.digest()))
+
+    def test_difficulty(self):
+        """
+        Ensure that the difficulty is verified correctly.
+        """
+        test_block = self.get_test_first_block()
+
+        # verify with the same difficulty
+        test_block.verify_and_get_changes(
+            difficulty=test_block.difficulty,
+            previous_user_states=dict())
+
+        # verify with a higher difficulty
+        with self.assertRaisesRegex(Exception, 'Difficulty value not valid'):
+            test_block.verify_and_get_changes(
+                difficulty=test_block.difficulty + 1,
+                previous_user_states=dict())
+
+    def test_block_valid_id(self):
+        """
+        Ensure that the the block_id is verified correctly,
+        """
+        # get tehe blocks for testing
+        first_block = self.get_test_first_block()
+        second_block = self.get_transactions_block()
+
+        # the first block should be valid
+        first_block.verify_and_get_changes(
+            difficulty=first_block.difficulty,
+            previous_user_states=dict())
+
+        # test with an invalid block id
+        first_block.block_id = second_block.block_id
+        with self.assertRaisesRegex(Exception, 'Invalid block id'):
+            first_block.verify_and_get_changes(
+                difficulty=first_block.difficulty,
+                previous_user_states=dict())
+
+    def test_transaction_count(self):
+        """
+        Ensure that the transaction count is verified correctly.
+        """
+        # get the block for testing
+        test_block = self.get_transactions_block()
+
+        test_transaction = test_block.transactions[0]
+        test_states = dict([(test_transaction.sender_hash, UserState(1000, 0))])
+
+        # the first block should be valid
+        test_block.verify_and_get_changes(
+            difficulty=test_block.difficulty,
+            previous_user_states=test_states)
+
+        # test with to many transactions
+        test_transaction = test_block.transactions[0]
+        for i in range(0, 26):
+            test_block.transactions.append(test_transaction)
+
+        test_block = mine_block(
+            test_block.previous,
+            test_block.height,
+            test_block.miner,
+            test_block.transactions,
+            test_block.timestamp,
+            difficulty=100,
+            window_size=1e4)
+
+        with self.assertRaisesRegex(Exception, 'Too many transactions in block'):
+            test_block.verify_and_get_changes(
+                difficulty=test_block.difficulty,
+                previous_user_states=dict())
+
+    def test_miner_address(self):
+        """
+        Ensure that the miner address is verified correctly.
+        """
+        # get the block for testing
+        test_block = self.get_transactions_block()
+
+        test_transaction = test_block.transactions[0]
+        test_states = dict([(test_transaction.sender_hash, UserState(1000, 0))])
+
+        # the first block should be valid
+        test_block.verify_and_get_changes(
+            difficulty=test_block.difficulty,
+            previous_user_states=test_states)
+
+        # test with an invalid miner address
+        test_block.miner = b'test'
+        test_block = mine_block(
+            test_block.previous,
+            test_block.height,
+            test_block.miner,
+            test_block.transactions,
+            test_block.timestamp,
+            difficulty=100,
+            window_size=1e4)
+
+        with self.assertRaisesRegex(Exception, 'Invalid miner address'):
+            test_block.verify_and_get_changes(
+                difficulty=test_block.difficulty,
+                previous_user_states=test_states)

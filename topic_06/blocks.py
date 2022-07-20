@@ -3,6 +3,7 @@ This module implements the functionality for a block in the Zimcoin
 blockchain.
 """
 
+from copy import deepcopy
 import hashlib
 
 class UserState:
@@ -61,6 +62,7 @@ class Block:
         self.difficulty = difficulty
         self.block_id = block_id
         self.nonce = nonce
+        self.block_reward = 10_000
 
     def verify_and_get_changes(self,
                                difficulty : int,
@@ -80,6 +82,29 @@ class Block:
             dict: A dictionary of user states representing the state of
                 the users after the block was mined.
         """
+        # verify that the difficulty is correct
+        assert self.difficulty == difficulty, 'Difficulty value not valid'
+
+        # verify the block id
+        block_id = self.calculate_block_id()
+        assert self.block_id == block_id, 'Invalid block id'
+
+        # verify that there are at most 25 transactions in the block
+        assert len(self.transactions) <= 25, 'Too many transactions in block'
+
+        # verify the miner address
+        assert len(self.miner) == 20, 'Invalid miner address'
+
+        # verify that the proof of work is valid
+        assert self.verify_proof_of_work(), 'Invalid proof of work'
+
+        # verify that the transactions are valid
+        # if self.height == 0:
+        #     assert len(self.transactions) == 0, 'There are transactions in the genesis block'
+
+        user_states = self.verify_and_update_transactions(previous_user_states)
+
+        return user_states
 
     def calculate_block_id(self) -> bytes:
         """
@@ -150,3 +175,42 @@ class Block:
 
         # verify that the block id is less than the difficulty
         return block_id_int < target
+
+    def verify_and_update_transactions(self, previous_user_states : dict) -> dict:
+        """
+        Verify that the transactions in the block are valid.
+
+        Parameters:
+            previous_user_states (dict): A dictionary of user states
+                representing the state of the users before the block was
+                mined.
+
+        Returns:
+            bool: True if the transactions are valid, False otherwise.
+        """
+        # create the output user states
+        user_states = deepcopy(previous_user_states)
+
+        # add the miner to the user states
+        if self.miner not in user_states:
+            user_states[self.miner] = UserState(0, 0)
+
+        # allocate the block reward to the miner
+        miner_state = user_states[self.miner]
+        miner_state.balance += self.block_reward
+
+        for transaction in self.transactions:
+            # get the sender user state
+            sender_state = user_states.get(transaction.sender_hash)
+            assert sender_state is not None, 'Sender user state not found'
+
+            # verify the transaction
+            transaction.verify(
+                sender_balance=sender_state.balance,
+                sender_previous_nonce=sender_state.nonce)
+
+            # add the receiver to the user states if required
+            if transaction.recipient_hash not in user_states:
+                user_states[transaction.recipient_hash] = UserState(0, 0)
+
+        return user_states

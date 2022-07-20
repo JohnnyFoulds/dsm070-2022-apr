@@ -1,4 +1,4 @@
-# NOTE: These inports had to be adjusted by necessity.
+# NOTE: These imports had to be adjusted by necessity.
 from time import time
 from blocks import *
 from transactions import *

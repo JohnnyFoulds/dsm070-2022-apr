@@ -2,6 +2,7 @@
 This module implements the Zimcoin miner functionality.
 """
 
+import os
 import pyopencl as cl
 import numpy as np
 from blocks import Block
@@ -24,8 +25,8 @@ class ZimcoinMiner:
 
         # set the opencl source files
         self.program_files = [
-            'Library/worker/sha256.cl',
-            'Library/worker/zimcoin.cl',
+            os.path.join(os.path.dirname(__file__), 'Library/worker/sha256.cl'),
+            os.path.join(os.path.dirname(__file__), 'Library/worker/zimcoin.cl'),
         ]
 
         # initialize the opencl context
@@ -81,7 +82,8 @@ class ZimcoinMiner:
         return self.cl_program
 
     def mine(self, previous : bytes, height : int, miner : bytes,
-             transactions : list, timestamp : int, difficulty : int):
+             transactions : list, timestamp : int,
+             difficulty : int) -> Block:
         """
         Mine for Zimcoins.
         """
@@ -136,5 +138,47 @@ class ZimcoinMiner:
 
             seed = np.ulonglong(seed + self.thread_count * self.window_size)
 
-        # return the nonce
-        return int.from_bytes(nonce[0].tobytes(), byteorder='little')
+        # update the block with the nonce
+        input_block.nonce = int.from_bytes(nonce[0].tobytes(), byteorder='little')
+        input_block.block_id = input_block.calculate_block_id()
+
+        # return the block
+        return input_block
+
+# This method is a wrapper function around the miner in the Miner class.
+def mine_block(previous : bytes, height : int, miner : bytes,
+               transactions : list, timestamp : int,
+               difficulty : int,
+               platform_id : int = 0, device_id : int = 0,
+               window_size : int = 1e6) -> Block:
+    """
+    Mine a block.
+
+    Parameters:
+        previous (bytes): The block id of the previous block.
+        height (int): The block height.
+        miner (bytes): The public key hash of the miner of the block.
+        transactions (list): The list of transactions in the block.
+        timestamp (int): The unix timestamp of the block.
+        difficulty (int): The difficulty of the block.
+        platform_id (int): The OpenCL platform id of the miner.
+        device_id (int): The OpenCL device id of the miner.
+        window_size (int): The window size of the miner.
+
+    Returns:
+        Block: The mined block.
+    """
+    # create a miner
+    zimcoin_miner = ZimcoinMiner(
+        platform_id=platform_id,
+        device_id=device_id,
+        window_size=window_size)
+
+    # mine the block and return it
+    return zimcoin_miner.mine(
+        previous=previous,
+        height=height,
+        miner=miner,
+        transactions=transactions,
+        timestamp=timestamp,
+        difficulty=difficulty)

@@ -150,22 +150,3 @@ class Block:
 
         # verify that the block id is less than the difficulty
         return block_id_int < target
-
-# This method is a wrapper function around the miner in the Miner class.
-def mine_block(previous : bytes, height : int, miner : bytes,
-               transactions : list, timestamp : int,
-               difficulty : int) -> Block:
-    """
-    Mine a block.
-
-    Parameters:
-        previous (bytes): The block id of the previous block.
-        height (int): The block height.
-        miner (bytes): The public key hash of the miner of the block.
-        transactions (list): The list of transactions in the block.
-        timestamp (int): The unix timestamp of the block.
-        difficulty (int): The difficulty of the block.
-
-    Returns:
-        Block: The mined block.
-    """

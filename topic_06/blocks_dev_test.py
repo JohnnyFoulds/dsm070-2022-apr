@@ -6,8 +6,9 @@ implemented to verify correctness.
 import unittest
 import binascii
 import hashlib
-from blocks import Block, UserState, mine_block
+from blocks import Block, UserState
 from transactions import Transaction, create_signed_transaction
+from miner import mine_block
 
 
 class BlockDevelopment(unittest.TestCase):

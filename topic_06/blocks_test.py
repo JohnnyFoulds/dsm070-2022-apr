@@ -1,6 +1,8 @@
-from datetime import time
+# NOTE: These inports had to be adjusted by necessity.
+from time import time
 from blocks import *
 from transactions import *
+from miner import mine_block
 
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives.serialization import PublicFormat, Encoding

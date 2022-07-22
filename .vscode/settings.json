@@ -24,7 +24,7 @@
     "python.testing.unittestArgs": [
         "-v",
         "-s",
-        "./topic_06",
+        "./topic_07",
         "-p",
         "*_test.py"
     ],

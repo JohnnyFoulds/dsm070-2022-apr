@@ -2,7 +2,7 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.234.0/containers/python-3
 {
 	"name": "Python 3",
-	"runArgs": [ "--gpus", "all"],
+	//"runArgs": [ "--gpus", "all"],
 	"build": {
 		"dockerfile": "Dockerfile",
 		"context": "..",

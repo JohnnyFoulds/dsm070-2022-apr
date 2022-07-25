@@ -230,5 +230,49 @@ class Block:
 
         return user_states
 
+    def get_changes_for_undo(self, user_states_after : dict) -> dict:
+        """
+        Rollback the transactions in the block and return the previous
+        state.
+
+        Parameters:
+            user_states_after (dict): A dictionary of user states
+                representing the state of the users after the block was
+                mined.
+
+        Returns:
+            dict: A dictionary of user states representing the state of
+                the users before the block was mined.
+        """
+        # create the output user states
+        user_states = deepcopy(user_states_after)
+
+        # remove the block reward from the miner
+        miner_state = user_states[self.miner]
+        miner_state.balance -= self.block_reward
+
+        for transaction in self.transactions:
+            # get the sender user state
+            sender_state = user_states.get(transaction.sender_hash)
+            assert sender_state is not None, 'Sender user state not found'
+
+            # get the receiver user state
+            receiver_state = user_states[transaction.recipient_hash]
+
+            # rollback the nonce of the sender
+            sender_state.nonce -= 1
+
+            # increase the balance of the sender
+            sender_state.balance += transaction.amount
+
+            # decrease the balance of the receiver
+            receiver_state.balance -= transaction.amount + transaction.fee
+
+            # return the fee to the miner
+            miner_state.balance -= transaction.fee
+
+        return user_states
+
+
 # expose the mine_block function
 mine_block = miner_helper.mine_block

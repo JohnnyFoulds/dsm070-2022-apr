@@ -7,6 +7,7 @@ to allow it to be exposed as a method in the block class.
 def mine_block(previous : bytes, height : int, miner : bytes,
                transactions : list, timestamp : int,
                difficulty : int,
+               expected_timestamp: int = None,
                platform_id : int = 0, device_id : int = 0,
                window_size : int = 1e6):
     """

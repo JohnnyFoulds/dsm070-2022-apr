@@ -266,7 +266,7 @@ class Block:
             sender_state.balance += transaction.amount
 
             # decrease the balance of the receiver
-            receiver_state.balance -= transaction.amount + transaction.fee
+            receiver_state.balance -= (transaction.amount - transaction.fee)
 
             # return the fee to the miner
             miner_state.balance -= transaction.fee

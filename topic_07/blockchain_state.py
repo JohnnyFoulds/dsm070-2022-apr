@@ -52,7 +52,7 @@ class BlockchainState:
 
             # handle the case where the period is too short
             if total_time_for_period == 0:
-                logging.warning(f'Period is too short: {total_time_for_period}')
+                logging.warning('Period is too short: %d', total_time_for_period)
                 total_time_for_period = 1
 
             # calculate the difficulty for the period
@@ -93,7 +93,20 @@ class BlockchainState:
             self.user_states)
 
         # add the block to the longest chain
-        self.total_difficulty = self.calculate_difficulty()
+        self.total_difficulty += self.calculate_difficulty()
         self.longest_chain.append(block)
+
+    def undo_last_block(self) -> None:
+        """
+        Undo the last block in the blockchain state.
+        """
+        # remove the last block from the longest chain
+        block = self.longest_chain.pop()
+
+        # update the total difficulty
+        self.total_difficulty -= block.difficulty
+
+        # update the user states
+        self.user_states = block.get_changes_for_undo(self.user_states)
 
 verify_reorg = None

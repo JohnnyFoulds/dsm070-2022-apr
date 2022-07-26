@@ -6,3 +6,4 @@ ipykernel==6.15.1
 pqdm==0.2.0
 ipywidgets==7.7.1
 pykka==3.1.1
+sqlitedict==2.0.0

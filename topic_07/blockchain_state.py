@@ -3,6 +3,7 @@ This module implements the functionality to keep track of the longest
 chain of blocks.
 """
 
+import logging
 from copy import deepcopy
 from blocks import Block
 
@@ -48,6 +49,11 @@ class BlockchainState:
             total_time_for_period = \
                   self.longest_chain[-1].timestamp \
                 - self.longest_chain[-11].timestamp
+
+            # handle the case where the period is too short
+            if total_time_for_period == 0:
+                logging.warning(f'Period is too short: {total_time_for_period}')
+                total_time_for_period = 1
 
             # calculate the difficulty for the period
             total_difficulty = \

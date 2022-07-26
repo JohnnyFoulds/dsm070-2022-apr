@@ -3,6 +3,7 @@ This module implements the functionality to keep track of the longest
 chain of blocks.
 """
 
+from copy import deepcopy
 from blocks import Block
 
 
@@ -35,7 +36,7 @@ class BlockchainState:
         """
         total_difficulty = 1000
 
-        if (len(self.longest_chain) > 10):
+        if len(self.longest_chain) > 10:
             total_difficulty_for_period = 0
 
             # calculate the difficulty for the last 10 blocks
@@ -43,7 +44,7 @@ class BlockchainState:
             for block in blocks:
                 total_difficulty_for_period += block.difficulty
 
-            # caluclate the total time for the period
+            # calculate the total time for the period
             total_time_for_period = \
                   self.longest_chain[-1].timestamp \
                 - self.longest_chain[-11].timestamp
@@ -64,7 +65,29 @@ class BlockchainState:
         Returns:
             bool: True if the block was verified and applied, False otherwise.
         """
+        # verify the block height
+        assert block.height == len(self.longest_chain), 'Block height is wrong'
 
+        # verify the previous block id
+        if len(self.longest_chain) == 0:
+            assert block.previous == bytes([0] * 32), \
+                'previous block id is wrong'
+        else:
+            assert block.previous == self.longest_chain[-1].block_id, \
+                'previous block id is wrong'
 
+        # verify the timestamp
+        if len(self.longest_chain) > 0:
+            assert block.timestamp >= self.longest_chain[-1].timestamp, \
+                'Timestamp is wrong'
+
+        # verify the block with the current difficulty
+        self.user_states = block.verify_and_get_changes(
+            self.calculate_difficulty(),
+            self.user_states)
+
+        # add the block to the longest chain
+        self.total_difficulty = self.calculate_difficulty()
+        self.longest_chain.append(block)
 
 verify_reorg = None

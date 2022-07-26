@@ -84,7 +84,7 @@ class Block:
                 the users after the block was mined.
         """
         # verify that the difficulty is correct
-        assert self.difficulty == difficulty, 'Difficulty value not valid'
+        assert self.difficulty == difficulty, 'Incorrect difficulty'
 
         # verify the block id
         block_id = self.calculate_block_id()

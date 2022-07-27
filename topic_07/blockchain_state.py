@@ -109,4 +109,35 @@ class BlockchainState:
         # update the user states
         self.user_states = block.get_changes_for_undo(self.user_states)
 
-verify_reorg = None
+def verify_reorg(
+        old_state : BlockchainState, new_branch : list) -> BlockchainState:
+    """
+    This function attempts to calculate a new blockchain state
+    corresponding to the new longest chain, and raise an exception if
+    the new chain is invalid.
+
+    Parameters:
+        old_state (BlockchainState): The old blockchain state.
+        new_branch (list): The new branch of blocks.
+
+    Returns:
+        BlockchainState: The new blockchain state.
+    """
+    # copy the old state
+    new_state = deepcopy(old_state)
+
+    # undo blocks until the height is the same as the first block in
+    # the new branch
+    while new_state.longest_chain[-1].height >= new_branch[0].height:
+        new_state.undo_last_block()
+
+    # add the new blocks to the new state
+    for block in new_branch:
+        new_state.verify_and_apply_block(block)
+
+    # verify that the new chain is valid
+    if new_state.total_difficulty <= old_state.total_difficulty:
+        raise Exception('The total difficulty of the new chain is '
+                       +'lower than the old chain')
+    
+    return new_state

@@ -103,7 +103,7 @@ class ZimcoinMiner:
         block_data_len = np.int32(block_data.size) * 4
 
         seed = np.ulonglong(0)
-        
+
         target = np.frombuffer(
             input_block.calculate_target() \
                 .to_bytes(32, byteorder='big', signed=False),

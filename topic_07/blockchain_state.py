@@ -139,5 +139,5 @@ def verify_reorg(
     if new_state.total_difficulty <= old_state.total_difficulty:
         raise Exception('The total difficulty of the new chain is '
                        +'lower than the old chain')
-    
+
     return new_state

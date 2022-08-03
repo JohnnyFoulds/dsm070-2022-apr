@@ -3,9 +3,11 @@ This module implements the Zimcoin miner functionality.
 """
 
 import os
+import logging
 import pyopencl as cl
 import numpy as np
 from blocks import Block
+from time import time
 
 
 class ZimcoinMiner:
@@ -14,7 +16,8 @@ class ZimcoinMiner:
     """
     def __init__(self,
                  platform_id : int, device_id : int,
-                 window_size : int = 1e6):
+                 window_size : int = 1e6,
+                 cutoff_time: int = None):
         """
         Initialize the miner.
         """
@@ -44,6 +47,8 @@ class ZimcoinMiner:
 
         # build the opencl program
         self.cl_program = self.build_program()
+
+        self.cutoff_time = cutoff_time
 
     @property
     def thread_count(self) -> int:
@@ -87,6 +92,8 @@ class ZimcoinMiner:
         """
         Mine for Zimcoins.
         """
+        print(f'*** Mining: miner={miner.hex()}, difficulty={difficulty}, device={self.cl_device.name}')
+        
         # create the block from the input data
         input_block = Block(
             previous=previous,
@@ -119,7 +126,8 @@ class ZimcoinMiner:
         cl_target = cl.Buffer(self.cl_context, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=target)
 
         # search for a valid nonce
-        while nonce[0] == 0:
+        while (nonce[0] == 0) and (self.cutoff_time is None or time() < self.cutoff_time):
+            print('**** Starting Iteration')
             cl_seed = cl.Buffer(self.cl_context, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=seed)
 
             # execute the kernel
@@ -141,6 +149,8 @@ class ZimcoinMiner:
         # update the block with the nonce
         input_block.nonce = int.from_bytes(nonce[0].tobytes(), byteorder='little')
         input_block.block_id = input_block.calculate_block_id()
+
+        print(f'*** Found block nonce: {input_block.nonce }')
 
         # return the block
         return input_block

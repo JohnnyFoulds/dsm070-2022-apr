@@ -7,9 +7,9 @@ to allow it to be exposed as a method in the block class.
 def mine_block(previous : bytes, height : int, miner : bytes,
                transactions : list, timestamp : int,
                difficulty : int,
-               expected_timestamp: int = None,
+               cutoff_time: int = None,
                platform_id : int = 0, device_id : int = 0,
-               window_size : int = 1e6):
+               window_size : int = 1e4):
     """
     Mine a block.
 
@@ -33,7 +33,8 @@ def mine_block(previous : bytes, height : int, miner : bytes,
     zimcoin_miner = ZimcoinMiner(
         platform_id=platform_id,
         device_id=device_id,
-        window_size=window_size)
+        window_size=window_size,
+        cutoff_time=cutoff_time)
 
     # mine the block and return it
     return zimcoin_miner.mine(

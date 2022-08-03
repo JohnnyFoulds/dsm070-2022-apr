@@ -11,7 +11,7 @@ MINER_ADDRESS = b's\\s\x884u\x19\x11m\xad\xedA\x8c\x8f\xe5\x84k^]m'
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:
-        REMOTE_NODES = ["ws://ec2-18-135-206-224.eu-west-2.compute.amazonaws.com:46030/"]
+        REMOTE_NODES = ["ws://node.zimcoin.org:46030/"]
         node = Node.start("./blocks.sqlite").proxy()
         miner = Miner.start(node, MINER_ADDRESS).proxy()
 

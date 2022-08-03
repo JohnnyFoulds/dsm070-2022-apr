@@ -23,7 +23,7 @@ class Miner(ThreadingActor):
             transactions.sort(key=lambda t: t.fee, reverse=True)
             transactions = transactions[:25]
 
-            time.sleep(30)
+            time.sleep(10)
 
             print("Attempting mining with difficulty", difficulty)
             block = mine_block(

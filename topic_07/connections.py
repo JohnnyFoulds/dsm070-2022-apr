@@ -107,10 +107,10 @@ class ConnectionActor(ThreadingActor):
             self.node.received_blocks(blocks)
         elif parsed["type"] == 'get_transactions':
             transactions = self.node.get_transactions().get()
-            self.send_transactions(transactions)
+            self.node.send_transactions(transactions)
         elif parsed["type"] == 'transactions':
             transactions = list(map(dict_to_transaction, parsed["transactions"]))
-            self.received_transactions(transactions)
+            self.node.received_transactions(transactions)
 
 
 class ConnectionHandler(WebSocketHandler):

@@ -18,13 +18,13 @@ class Miner(ThreadingActor):
         print("About to mine block")
         while True:
             summary: NodeStateSummary = self.node.state_summary().get()
+            time.sleep(30)
             difficulty = self.node.current_difficulty().get()
             transactions: List[Transaction] = self.node.get_transactions().get()
             transactions.sort(key=lambda t: t.fee, reverse=True)
             transactions = transactions[:25]
 
             #time.sleep(30)
-            time.sleep(10)
 
             print("Attempting mining with difficulty", difficulty)
             block = mine_block(
@@ -39,8 +39,8 @@ class Miner(ThreadingActor):
             if block is not None:
                 break
         print("Mined block", block.block_id.hex())
-        time.sleep(80)
         self.node.received_blocks([block])
+        time.sleep(79)
 
     def start_mining(self):
         mine_count = 0

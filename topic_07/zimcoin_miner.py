@@ -126,8 +126,8 @@ class ZimcoinMiner:
         cl_target = cl.Buffer(self.cl_context, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=target)
 
         # search for a valid nonce
-        #while (nonce[0] == 0) and (self.cutoff_time is None or time() < self.cutoff_time):
-        while (nonce[0] == 0):
+        while (nonce[0] == 0) and (self.cutoff_time is None or time() < self.cutoff_time):
+        #while (nonce[0] == 0):
             print('**** Starting Iteration')
             cl_seed = cl.Buffer(self.cl_context, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=seed)
 

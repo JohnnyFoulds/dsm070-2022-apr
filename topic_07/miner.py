@@ -41,5 +41,15 @@ class Miner(ThreadingActor):
         self.node.received_blocks([block])
 
     def start_mining(self):
+        mine_count = 0
         while True:
             self.mine_block()
+
+            mine_count += 1
+            if mine_count % 3 == 0:
+                print("*** Mined", mine_count, "blocks. Having a nap...")
+                nap_time = 3*60
+                while nap_time > 0:
+                    print('----', nap_time, 'seconds remaining ----')
+                    time.sleep(10)
+                    nap_time -= 10

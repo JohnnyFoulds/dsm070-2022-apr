@@ -9,7 +9,7 @@ def mine_block(previous : bytes, height : int, miner : bytes,
                difficulty : int,
                cutoff_time: int = None,
                platform_id : int = 0, device_id : int = 0,
-               window_size : int = 1e4):
+               window_size : int = 1e6):
     """
     Mine a block.
 

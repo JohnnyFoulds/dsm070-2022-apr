@@ -84,6 +84,9 @@ class Block:
                 the users after the block was mined.
         """
         # verify that the difficulty is correct
+        if self.difficulty != difficulty:
+            print(f'Expected difficulty: {difficulty}')
+
         assert self.difficulty == difficulty, 'Incorrect difficulty'
 
         # verify the block id

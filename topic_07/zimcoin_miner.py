@@ -151,7 +151,7 @@ class ZimcoinMiner:
         input_block.nonce = int.from_bytes(nonce[0].tobytes(), byteorder='little')
         input_block.block_id = input_block.calculate_block_id()
 
-        print(f'*** Found block nonce: {input_block.nonce }')
+        print(f'*** Found block nonce: {input_block.nonce }, block_id: {input_block.block_id.hex()}')
 
         # return the block
         return input_block

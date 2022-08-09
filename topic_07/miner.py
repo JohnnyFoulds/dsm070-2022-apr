@@ -39,6 +39,7 @@ class Miner(ThreadingActor):
 
         print("Mined block", block.block_id.hex())
         self.node.received_blocks([block])
+        time.sleep(90)
 
     def start_mining(self):
         while True:

@@ -40,8 +40,8 @@ class Miner(ThreadingActor):
         print("Mined block", block.block_id.hex())
         self.node.received_blocks([block])
 
-        # if block.nonce != 0:
-        #     time.sleep(90)
+        if block.nonce != 0:
+            time.sleep(90)
 
 
     def start_mining(self):

@@ -7,9 +7,9 @@ from miner import Miner
 from node import Node
 from connections import run_server, remote_connection
 
-#MINER_ADDRESS = b's\\s\x884u\x19\x11m\xad\xedA\x8c\x8f\xe5\x84k^]m'
+MINER_ADDRESS = b's\\s\x884u\x19\x11m\xad\xedA\x8c\x8f\xe5\x84k^]m'
 #MINER_ADDRESS = bytes.fromhex('dca5d2f1d7c2fea3c4e5d07211d33e03b04b5b2c')
-MINER_ADDRESS = bytes.fromhex('0000000000000000000000000000000000000000')
+#MINER_ADDRESS = bytes.fromhex('0000000000000000000000000000000000000000')
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:

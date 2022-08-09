@@ -24,8 +24,6 @@ class Miner(ThreadingActor):
             transactions.sort(key=lambda t: t.fee, reverse=True)
             transactions = transactions[:25]
 
-            #time.sleep(30)
-
             print("Attempting mining with difficulty", difficulty)
             block = mine_block(
                 summary.block_id or bytes(32),
@@ -42,23 +40,10 @@ class Miner(ThreadingActor):
         print("Mined block", block.block_id.hex())
         self.node.received_blocks([block])
 
-        if block.nonce != 0:
-            time.sleep(2*60)
-            #time.sleep(4*60)
-
-        #time.sleep(76)
+        # if block.nonce != 0:
+        #     time.sleep(90)
 
 
     def start_mining(self):
-        mine_count = 0
         while True:
             self.mine_block()
-
-            mine_count += 1
-            # if mine_count % 3 == 0:
-            #     print("*** Mined", mine_count, "blocks. Having a nap...")
-            #     nap_time = 4*60
-            #     while nap_time > 0:
-            #         print('----', nap_time, 'nap seconds remaining ----')
-            #         time.sleep(20)
-            #         nap_time -= 20

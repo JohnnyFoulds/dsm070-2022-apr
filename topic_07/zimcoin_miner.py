@@ -109,7 +109,7 @@ class ZimcoinMiner:
         block_data = np.frombuffer(input_block.to_bytes(), dtype=np.uint32)
         block_data_len = np.int32(block_data.size) * 4
 
-        seed = np.ulonglong(0)
+        seed = np.random.randint(0, np.iinfo(np.ulonglong).max, dtype=np.ulonglong)
 
         target = np.frombuffer(
             input_block.calculate_target() \
@@ -151,7 +151,9 @@ class ZimcoinMiner:
         input_block.nonce = int.from_bytes(nonce[0].tobytes(), byteorder='little')
         input_block.block_id = input_block.calculate_block_id()
 
-        print(f'*** Found block nonce: {input_block.nonce }, block_id: {input_block.block_id.hex()}')
-
-        # return the block
-        return input_block
+        if (input_block.nonce != 0):
+            print(f'*** Found block nonce: {input_block.nonce }, block_id: {input_block.block_id.hex()}')
+            return input_block
+        else:
+            print(f'*** Could not find nonce in time')
+            return None

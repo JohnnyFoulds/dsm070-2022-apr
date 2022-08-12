@@ -19,6 +19,8 @@ class Miner(ThreadingActor):
         while True:
             summary: NodeStateSummary = self.node.state_summary().get()
             time.sleep(30)
+            #time.sleep(60*60)
+            #timer.sleep(60*60*24)
             difficulty = self.node.current_difficulty().get()
             transactions: List[Transaction] = self.node.get_transactions().get()
             transactions.sort(key=lambda t: t.fee, reverse=True)
